@@ -1,8 +1,8 @@
-### Baekjoon Online Judge
+# Baekjoon Online Judge
 
 Python [BOJ] (https://www.acmicpc.net/) solution
 
-# In progress
+## In progress
 - 1107 리모콘 : 함수 생성중
 - 1922 네트워크 연결 : 일부 TC 틀림
     반례찾아보기
