@@ -3,6 +3,7 @@
 Python [BOJ] (https://www.acmicpc.net/) solution
 
 ## In progress
+- 1027 고층 건물 : 간단하게 비교하는 방법 생각중
 - 1107 리모콘 : 함수 생성중
 - 1922 네트워크 연결 : 일부 TC 틀림
     반례찾아보기
