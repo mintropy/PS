@@ -36,5 +36,3 @@ for level in range(field_sotred[-1], field_sotred[0] + 1):
             lvl = level
 
 print(count, lvl)
-
-
