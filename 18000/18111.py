@@ -1,6 +1,6 @@
 """
-Title : 랜선 자르기
-Link : https://www.acmicpc.net/problem/1654
+Title : 마인크래프트
+Link : https://www.acmicpc.net/problem/18111
 """
 
 import sys
