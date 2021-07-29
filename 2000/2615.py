@@ -79,7 +79,7 @@ if tf1:
     print(1)
     print(left_most1[0] + 1, left_most1[1] + 1)
 elif tf2:
-    print(1)
+    print(2)
     print(left_most2[0] + 1, left_most2[1] + 1)
 else:
     print(0)
