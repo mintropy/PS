@@ -38,20 +38,19 @@ r, s = map(int, input().split())
 picture = [list(str(input().strip())) for _ in range(r)]
 
 meteor, meteor_check = find_meteor(r, s, picture)
+meteor_down = 0
 
 # 하나하나씩 내리지 말고, 몇 칸 내려가는지 확인 & 마지막에 적용하기
 while True:
     # 유성이 더 내려가지 못하는 경우 종료
     if not check(picture, meteor_check):
+        # 종료되기 전 내려가야되는 정보를 바탕으로 picture 수정하기
+        for i, j in meteor[::-1]:
+            picture[i][j] = '.'
+            picture[i + meteor_down][j] = 'X'
         break
-    # 모든 유성을 한 칸씩 내리기
-    # 1. meteor목록의 유성 위치를 확인, picture와 meteor에 반영
-    # 2. meteor_check에서 -1이 아니면 1씩 더하기
-    for k in range(len(meteor) - 1, -1, -1):
-        i, j = meteor[k]
-        picture[i][j] = '.'
-        picture[i + 1][j] = 'X'
-        meteor[k][0] += 1
+    meteor_down += 1
+    # 확인하면 되는 meteor_check의 유성만 한칸씩 내리기
     for k in range(s):
         if meteor_check[k] != -1:
             meteor_check[k] += 1
