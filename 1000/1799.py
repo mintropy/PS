@@ -3,18 +3,23 @@ Title : 비숍
 Link : https://www.acmicpc.net/problem/1799
 """
 
+'''
+https://suri78.tistory.com/184
+https://yanoo.tistory.com/47
+'''
+
 import sys
 input = sys.stdin.readline
 
 
-def dfs(bishop_count: int, bishop_idx: int):
-    global n, max_bishop, bishop_able, ables, check_diag_1, check_diag_2
+def dfs(bishop_count: int, bishop_idx: int, bishop_able: list, ables: int):
+    global n, max_bishop, check_diag_1, check_diag_2
     if bishop_idx == ables:
         if bishop_count > max_bishop:
             max_bishop = bishop_count
         return
     # 비숍을 추가하지 않고 탐색
-    dfs(bishop_count, bishop_idx + 1)
+    dfs(bishop_count, bishop_idx + 1, bishop_able, ables)
     # 해당 비숍을 놓을 수 있는지 확인 > 추가하고 탐색
     # 몇번째 대각선인지 찾기
     # diag_1은 두 좌표의 합으로 해당 대각선 지정
@@ -26,7 +31,7 @@ def dfs(bishop_count: int, bishop_idx: int):
     if not check_diag_1[diag_1_idx] and not check_diag_2[diag_2_idx]:
         check_diag_1[diag_1_idx] = True
         check_diag_2[diag_2_idx] = True
-        dfs(bishop_count + 1, bishop_idx + 1)
+        dfs(bishop_count + 1, bishop_idx + 1, bishop_able, ables)
         check_diag_1[diag_1_idx] = False
         check_diag_2[diag_2_idx] = False
 
@@ -42,18 +47,29 @@ chess = list(list(map(int, input().split())) for _ in range(n))
 check_diag_1 = [False] * ((n - 1) * 2 + 1)
 check_diag_2 = [False] * ((n - 1) * 2 + 1)
 
-bishop_able = []
+bishop_able_black = []
+bishop_able_white = []
 for i in range(n):
     for j in range(n):
         if chess[i][j] == 1:
-            bishop_able.append((i, j))
+            if (i + j) % 2 == 0:
+                bishop_able_black.append((i, j))
+            else:
+                bishop_able_white.append((i, j))
+                
 #  가능한 자리의 수 == 비숍을 놓을 수 있는 자리의 개수
-ables = len(bishop_able)
+blakc_ables = len(bishop_able_black)
+white_ables = len(bishop_able_white)
+
+answer = 0
 
 max_bishop = 0
-
-dfs(0, 0)
-print(max_bishop)
+dfs(0, 0, bishop_able_black, blakc_ables)
+answer += max_bishop
+max_bishop = 0
+dfs(0, 0, bishop_able_white, white_ables)
+answer += max_bishop
+print(answer)
 
 
 '''
