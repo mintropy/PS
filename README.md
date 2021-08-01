@@ -13,6 +13,7 @@ Python [BOJ] (https://www.acmicpc.net/) solution
 - 2410 2의 멱수의 합
 - 3055 탈출 : 함수 구현 생각해보기
 - 5525 IOIOI : 서브태스크 실패
+- 7662 이중 우선순위 큐 : heapq, deque 활용 풀이 시간초과 bisect 공부해보기
 - 15683 감시
 - 20191 줄임말
 
