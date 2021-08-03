@@ -7,6 +7,20 @@ a, b, c = map(int, input().split())
 x1, x2, y1, y2 = map(int, input().split())
 
 
+if a * b < 0:
+    y1, y2 = y2, y1
+
+r1 = x1 * a + y1 * b + c
+r2 = x2 * a + y2 * b + c
+result = r1 * r2
+
+if r1 * r2 >= 0:
+    print('Lucky')
+else:
+    print('Poor')
+
+
+'''
 # a 또는 b가 0인 경우
 if a == 0:
     # y = - c / b 형태
@@ -48,3 +62,4 @@ else:
         print('Lucky')
     else:
         print('Poor')
+'''
