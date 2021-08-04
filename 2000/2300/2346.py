@@ -8,13 +8,13 @@ import sys, collections
 n = int(input())
 queue = collections.deque([i for i in range(1, n + 1)])
 
-cmd = list(map(int, input().split()))
+cmd = [0] + list(map(int, input().split()))
 
 for i in range(n):
     m = queue.popleft()
     print(m, end = ' ')
-    c = cmd[m - 1]
+    c = cmd[m]
     if c > 0:
         queue.rotate(-1 * (c - 1))
     else:
-        queue.rotate(-1 * (c + 2))
+        queue.rotate(-1 * (c))
