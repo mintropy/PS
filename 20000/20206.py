@@ -14,7 +14,7 @@ r1 = x1 * a + y1 * b + c
 r2 = x2 * a + y2 * b + c
 result = r1 * r2
 
-if r1 * r2 >= 0:
+if result >= 0:
     print('Lucky')
 else:
     print('Poor')

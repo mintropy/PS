@@ -1,3 +1,8 @@
+"""
+Title : 쉬운 계단 수
+Link : https://www.acmicpc.net/problem/10844
+"""
+
 # 끝자리가 해당 숫자로 끝나는 수를 기준으로 개수 확인
 
 from sys import stdin

@@ -1,3 +1,9 @@
+"""
+title : 최소비용 구하기
+Link : https://www.acmicpc.net/problem/1916
+"""
+
+
 from sys import stdin
 from heapq import *
 
