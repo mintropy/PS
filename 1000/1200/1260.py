@@ -1,6 +1,6 @@
 '''
-Title : 도미노 찾기
-Link : https://www.acmicpc.net/problem/1553
+Title : DFS와 BFS
+Link : https://www.acmicpc.net/problem/1260
 '''
 
 import sys, collections
