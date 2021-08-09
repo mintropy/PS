@@ -9,22 +9,26 @@ input = sys.stdin.readline
 def bin_search(n, lines):
     left = 0
     right = max(lines)
+    possible = 0
     while left <= right:
         mid = (left + right) // 2
+        if mid != right:
+            mid += 1
+        # 렌선 개수
         count = 0
-        for line in lines:
-            count += line // mid
+        if mid == 0:
+            count = len(lines)
+        else:
+            for line in lines:
+                count += line // mid
         if count < n:
             right = mid - 1
-        elif count == n:
-            if left == mid:
-                break
-            left = mid
+        # elif count >= n:
         else:
-            if left == mid:
-                break
-            left = mid
-    return mid
+            if possible < mid:
+                possible = mid
+            left = mid + 1
+    return possible
 
 
 k, n = map(int, input().split())
