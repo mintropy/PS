@@ -3,9 +3,49 @@ Title : 이중 우선순위 큐
 Link : https://www.acmicpc.net/problem/7662
 """
 
+'''
+min-max heap
+https://gist.github.com/kilian-gebhardt/6f1db877797d69fa1df6aa936feea607
+https://www.acmicpc.net/board/view/72699
+https://en.wikipedia.org/wiki/Min-max_heap
+'''
+
+import sys
+input = sys.stdin.readline
+
+
+class min_max_heap:
+    def __init__(self) -> None:
+        self.heap = []
+        pass
+    
+    # heap에 값 추가
+    def insert(self, num):
+        self.heap.append(num)
+        self.push_up(len(self.heap) - 1)
+    
+    def push_up(self, idx):
+        if idx == 0:
+            return
+        if self.heap[idx] > self.heap[idx // 2]:
+            pass
+        pass
+    
+    def push_up_max(self):
+        pass
+
+
+
+
+
+
+
+
+
+
+'''
 import sys, collections
 input= sys.stdin.readline
-
 
 for _ in range(int(input())):
     heap = collections.deque([])
@@ -36,6 +76,7 @@ for _ in range(int(input())):
         print(heap[-1], heap[0])
     else:
         print('EMPTY')
+'''
 
 
 '''
