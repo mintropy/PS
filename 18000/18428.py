@@ -3,7 +3,7 @@ Title : 감시 피하기
 Link : https://www.acmicpc.net/problem/18428
 """
 
-def dfs(obstacles: list, x: int, y: int):
+def dfs(obstacles: list, x: int, y: int) -> None:
     global n, hall, count, row, col, able
     if len(obstacles) == 3:
         if check_obstacles():
@@ -27,7 +27,7 @@ def dfs(obstacles: list, x: int, y: int):
     dfs(obstacles, x, y + 1)
 
 
-def check_obstacles():
+def check_obstacles() -> bool:
     global n, hall, teachers
     dx, dy = [-1, 0, 1, 0], [0, -1, 0, 1]
     for x, y in teachers:
