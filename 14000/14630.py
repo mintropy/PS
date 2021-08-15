@@ -32,3 +32,4 @@ cost_by_change = [[min_cost] * n for _ in range(n)]
 for i in range(n - 1):
     # j번 형태로 변하는 비용
     for j in range(n):
+        pass
