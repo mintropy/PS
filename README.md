@@ -28,3 +28,5 @@ Python [BOJ] (https://www.acmicpc.net/) solution
 - 1028 다이아몬드 광산
     1. 크게 특별하지 않을 DP문제 but 시간초과
     2. 코드별 시간차이 많이 난다. 최적화 공부하기
+- 1786 찾기
+    1. KMP 공부하기
