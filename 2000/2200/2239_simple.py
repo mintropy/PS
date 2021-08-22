@@ -12,20 +12,23 @@ def solve_sudoku(n):
     if n == 81:
         for line in sudoku:
             print(*line, sep = '')
-        return True
+        # return True
+        exit()
     x, y = n // 9, n % 9
     if sudoku[x][y]:
-        return solve_sudoku(n + 1)
+        # return solve_sudoku(n + 1)
+        solve_sudoku(n + 1)
     else:
         for i in range(1, 10):
             if not sudoku_row[x][i] and not sudoku_col[y][i] and not sudoku_sq[(x // 3) * 3 + y // 3][i]:
                 sudoku_row[x][i] = sudoku_col[y][i] = sudoku_sq[(x // 3) * 3 + y // 3][i] = True
                 sudoku[x][y] = i
-                if solve_sudoku(n + 1):
-                    return True
+                # if solve_sudoku(n + 1):
+                #     return True
+                solve_sudoku(n + 1)
                 sudoku_row[x][i] = sudoku_col[y][i] = sudoku_sq[(x // 3) * 3 + y // 3][i] = False
                 sudoku[x][y] = 0
-    return False
+    # return False
 
 
 sudoku = [list(int(i) for i in input().strip()) for _ in range(9)]
