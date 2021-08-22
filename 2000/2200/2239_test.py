@@ -4,6 +4,34 @@ Link : https://www.acmicpc.net/problem/2239
 """
 
 import sys
+input = sys.stdin.readline
+
+
+def solve_sudoku(sudoku):
+    nums = [[[0 for _ in range(3)] for _ in range(3)] for _ in range(10)]
+    # 들어 있는 숫자는 채우기
+    for i, row in enumerate(sudoku):
+        for j, m in enumerate(row):
+            if m:
+                # 3*3 기준 어디에 있는지
+                x, y = i % 3, j % 3
+                # 해당 블록을 위치로 배정
+                nums[m][i][j] = x * 3 + y
+    #
+
+
+
+
+
+
+
+sudoku = [list(int(i) for i in input().strip()) for _ in range(9)]
+
+
+
+'''
+# 시간초과
+import sys
 from itertools import product
 input = sys.stdin.readline
 
@@ -89,3 +117,4 @@ sudoku = [list(int(i) for i in input().strip()) for _ in range(9)]
 sudoku = solve_sudoku(sudoku)
 for line in sudoku:
     print(*line, sep='')
+'''
