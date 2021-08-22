@@ -7,6 +7,18 @@ import sys
 input = sys.stdin.readline
 
 
+sum_of_divisor = [1] * (10 ** 6 + 1)
+for i in range(2, 10 ** 6 + 1):
+    for j in range(i, 10 ** 6 + 1, i):
+        sum_of_divisor[j] += i
+    sum_of_divisor[i] += sum_of_divisor[i - 1]
+
+
+for _ in range(int(input())):
+    print(sum_of_divisor[int(input())])
+
+
+'''
 f_x = [0] * 1_000_001
 for i in range(1, 1_000_001):
     for j in range(i, 1_000_001, i):
@@ -15,6 +27,7 @@ for i in range(1, 1_000_001):
 
 for _ in range(int(input())):
     print(f_x[int(input())])
+'''
 
 
 '''
