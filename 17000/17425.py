@@ -13,7 +13,6 @@ for i in range(2, 10 ** 6 + 1):
         sum_of_divisor[j] += i
     sum_of_divisor[i] += sum_of_divisor[i - 1]
 
-
 for _ in range(int(input())):
     print(sum_of_divisor[int(input())])
 
