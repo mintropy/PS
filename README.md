@@ -30,3 +30,5 @@ Python [BOJ] (https://www.acmicpc.net/) solution
     2. 코드별 시간차이 많이 난다. 최적화 공부하기
 - 1786 찾기
     1. KMP 공부하기
+- 2239 스도쿠
+    1. sudoku solving algorithm 공부하기
