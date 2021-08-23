@@ -4,9 +4,97 @@ Link : https://www.acmicpc.net/problem/6416
 """
 
 import sys, collections
-input = sys.stdin.readline
+# input = sys.stdin.readline
+
+cmd = []
+while True:
+    try:
+        cmd.append(list(map(int, input().split())))
+    except:
+        break
+
+tc = 0
+idx_now = 0
+
+while True:
+    edges = []
+    while True:
+        tmp = list(map(int, input().split()))
+        if tmp[-2:] == [0, 0]:
+            edges.extend(tmp[:-2])
+            # end_check = input()
+            break
+        else:
+            edges.extend(tmp)
+    tc += 1
+    
+    # 트리 생성
+    parent = dict()
+    child = dict()
+    vertex = set()
+    for i in range(len(edges) // 2):
+        u, v = edges[i * 2], edges[i * 2 + 1]
+        vertex.update((u, v))
+        if u in child:
+            child[u].append(v)
+        else:
+            child[u] = [v]
+        if v in parent:
+            parent[v].append(u)
+        else:
+            parent[v] = [u]
+    
+    # 루트 확인
+    root = list(vertex - set(parent.keys()))
+    
+    # 루트가 유일하지 않으면 종료
+    if not edges:
+        print(f'Case {tc} is a tree.')
+    
+    elif len(root) != 1:
+        print(f'Case {tc} is not a tree.')
+    
+    # 그렇지 않으면 트리인지 확인
+    else:
+        vertex = list(vertex)
+        visited = {v: False for v in vertex}
+        visited[root[0]] = True
+        queue = collections.deque(root)
+        is_tree = True
+        while queue:
+            p = queue.popleft()
+            if p not in child:
+                continue
+            for q in child[p]:
+                # 이미 방문한 점이면, 트리가 아니므로 종료
+                if visited[q]:
+                    is_tree = False
+                    break
+                visited[q] = True
+                queue.append(q)
+        
+        # 한 점을 두 점 이상에서 방문 가능한 경우
+        if not is_tree:
+            print(f'Case {tc} is not a tree.')
+        
+        # root로 시작하는 부분은 트리가 됨
+        # 다른 조각이 있는지 확인
+        # visited에 False가 있는지 확인
+        else:
+            visited_check = list(set(visited.values()))
+            
+            if len(visited_check) == 2:
+                print(f'Case {tc} is not a tree.')
+            else:
+                print(f'Case {tc} is a tree.')
+    
+    end_check = input().strip()
+    # 종료 조건
+    if end_check:
+        break
 
 
+'''
 def find_root(tree_in, max_point):
     global point
     root_prob = []
@@ -77,3 +165,4 @@ while True:
     except:
         tc += 1
         continue
+'''
