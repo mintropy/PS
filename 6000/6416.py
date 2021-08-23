@@ -4,29 +4,36 @@ Link : https://www.acmicpc.net/problem/6416
 """
 
 import sys, collections
-# input = sys.stdin.readline
+input = sys.stdin.readline
 
+# 인풋을 전부 다 받고 시행
 cmd = []
 while True:
     try:
-        cmd.append(list(map(int, input().split())))
+        tmp = list(map(int, input().split()))
+        if tmp == [-1, -1]:
+            break
+        cmd.append(tmp)
     except:
         break
 
-tc = 0
-idx_now = 0
+# 테스트 케이스 별로 분류
+test_case = []
+tmp = []
+# 줄 마지막이 0 0 이면 빼고 추가
+# -1 -1 이면 종료
+# 아니라면 tmp에 추가
+for line in cmd:
+    if line[-2:] == [0, 0]:
+        tmp += line[:-2]
+        test_case.append(tmp)
+        tmp = []
+    else:
+        tmp += line
 
-while True:
-    edges = []
-    while True:
-        tmp = list(map(int, input().split()))
-        if tmp[-2:] == [0, 0]:
-            edges.extend(tmp[:-2])
-            # end_check = input()
-            break
-        else:
-            edges.extend(tmp)
-    tc += 1
+
+for tc in range(len(test_case)):
+    edges = test_case[tc]
     
     # 트리 생성
     parent = dict()
@@ -49,10 +56,10 @@ while True:
     
     # 루트가 유일하지 않으면 종료
     if not edges:
-        print(f'Case {tc} is a tree.')
+        print(f'Case {tc + 1} is a tree.')
     
     elif len(root) != 1:
-        print(f'Case {tc} is not a tree.')
+        print(f'Case {tc + 1} is not a tree.')
     
     # 그렇지 않으면 트리인지 확인
     else:
@@ -75,7 +82,7 @@ while True:
         
         # 한 점을 두 점 이상에서 방문 가능한 경우
         if not is_tree:
-            print(f'Case {tc} is not a tree.')
+            print(f'Case {tc + 1} is not a tree.')
         
         # root로 시작하는 부분은 트리가 됨
         # 다른 조각이 있는지 확인
@@ -84,14 +91,9 @@ while True:
             visited_check = list(set(visited.values()))
             
             if len(visited_check) == 2:
-                print(f'Case {tc} is not a tree.')
+                print(f'Case {tc + 1} is not a tree.')
             else:
-                print(f'Case {tc} is a tree.')
-    
-    end_check = input().strip()
-    # 종료 조건
-    if end_check:
-        break
+                print(f'Case {tc + 1} is a tree.')
 
 
 '''
