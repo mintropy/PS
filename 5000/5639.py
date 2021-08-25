@@ -3,12 +3,77 @@ Title : 이진 검색 트리
 Link :  https://www.acmicpc.net/problem/5639
 """
 
-import sys, collections
-input = sys.stdin.readline
-
+import sys, bisect
 sys.setrecursionlimit(10 ** 6)
 
 
+def pre_to_post(s, e):
+    if s == e:
+        return
+    idx = bisect.bisect(points, points[s], s, e)
+    pre_to_post(s + 1, idx)
+    pre_to_post(idx, e)
+    print(points[s])
+
+
+points = [int(i) for i in sys.stdin.read().split()]
+
+pre_to_post(0, len(points))
+
+
+'''
+import sys, collections, bisect
+
+
+def postorder(child, now):
+    if child[now][0]:
+        postorder(child, child[now][0])
+    if child[now][1]:
+        postorder(child, child[now][1])
+    print(now)
+
+
+root = int(input())
+
+parent = collections.defaultdict(int)
+child = collections.defaultdict(lambda: [0, 0, []])
+
+p = root
+# 모든 점을 받고 시행
+points = []
+while True:
+    try:
+        points.append(int(input()))
+    except:
+        break
+child[root][2] = points
+
+stack = [root]
+while stack:
+    now = stack.pop()
+    now_pts = child[now][2]
+    if not now_pts:
+        continue
+    
+    idx = bisect.bisect_left(now_pts, now)
+    smaller = now_pts[:idx]
+    bigger = now_pts[idx:]
+    if smaller:
+        stack.append(smaller[0])
+        child[now][0] = smaller[0]
+        parent[smaller[0]] = now
+        child[smaller[0]][2] = smaller[1:]
+    if bigger:
+        stack.append(bigger[0])
+        child[now][1] = bigger[0]
+        parent[bigger[0]] = now
+        child[bigger[0]][2] = bigger[1:]
+
+postorder(child, root)
+'''
+
+
+'''
 def postorder(child, now):
     if child[now][0]:
         postorder(child, child[now][0])
@@ -63,7 +128,7 @@ while True:
 # 전위 순회결과로 트리 생성 완료
 # 후위 순회하며 결과 출력
 postorder(child, root)
-
+'''
 
 
 '''
