@@ -3,6 +3,28 @@ Title : 홀수 홀릭 호석
 Link : https://www.acmicpc.net/problem/20164
 """
 
+
+def count_odd(seq: list) -> int:
+    odd = {'1', '3', '5', '7', '9'}
+    count = 0
+    for s in seq:
+        if s in odd:
+            count += 1
+    return count
+
+
+def search(seq: list) -> tuple:
+    pass
+    
+
+
+
+seq = list(input().strip())
+default_odd = count_odd(seq)
+
+
+
+'''
 import sys
 input = sys.stdin.readline
 
@@ -66,3 +88,4 @@ odd_count = count_odd(num)
 
 min_count, max_count = search(num)
 print(min_count + odd_count, max_count + odd_count)
+'''
