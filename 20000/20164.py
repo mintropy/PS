@@ -14,14 +14,43 @@ def count_odd(seq: list) -> int:
 
 
 def search(seq: list) -> tuple:
-    pass
-    
-
+    # 길이가 1이면 최대, 최소가 같음
+    if len(seq) == 1:
+        # cnt = count_odd(seq)
+        return 0, 0
+    # 길이가 2이면 한번 더 연산한 내용을 같이 리턴
+    elif len(seq) == 2:
+        next_seq = list(str(int(seq[0]) + int(seq[1])))
+        cnt2 = count_odd(next_seq)
+        cnt1, _ = search(next_seq)
+        return cnt1 + cnt2, cnt1 + cnt2
+    # 길이 3이상이면 세 부분으로 분할
+    else:
+        min_count, max_count = 10 ** 3, 0
+        # 구분할 구간
+        for left in range(1, len(seq) - 1):
+            for right in range(left + 1, len(seq)):
+                l = int(''.join(seq[:left]))
+                m = int(''.join(seq[left:right]))
+                r = int(''.join(seq[right:]))
+                tmp = list(str(l + m + r))
+                cnt = count_odd(tmp)
+                min_cnt, max_cnt = search(tmp)
+                min_cnt += cnt
+                max_cnt += cnt
+                if min_cnt < min_count:
+                    min_count = min_cnt
+                if max_cnt > max_count:
+                    max_count = max_cnt
+        return min_count, max_count
 
 
 seq = list(input().strip())
 default_odd = count_odd(seq)
 
+min_count, max_count = search(seq)
+print(default_odd + min_count, default_odd + max_count)
+# print(min_count, max_count)
 
 
 '''
