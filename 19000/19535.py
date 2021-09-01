@@ -3,8 +3,9 @@ Title : ㄷㄷㄷㅈ
 Link : https://www.acmicpc.net/problem/19535
 """
 
-import sys, collections, math
+import sys, collections
 input = sys.stdin.readline
+
 
 n = int(input())
 edges = [[] for _ in range(n + 1)]
@@ -39,19 +40,18 @@ while queue:
     # 하나 인접한 점은 queue에도 추가
     tmp = collections.deque([])
     for q in edges[p]:
-        if not visited[q]:
-            tmp.append((q, 2))
-            queue.append(q)
-    check = set([p] + edges[p])
+        tmp.append((p, q, 2))
+        queue.append(q)
     while tmp:
-        q, c = tmp.popleft()
+        prev, q, c = tmp.popleft()
         if c == 4:
-            d_count += 1
+            if not visited[q]:
+                d_count += 1
             continue
-        # 탐색을 시작한 첫번째, 두번째 점으로는 되돌아가지 않게
+        # 이전 점이나 방문한 점으로는 가지 않게
         for r in edges[q]:
-            if r not in check and not visited[r]:
-                tmp.append((r, c + 1))
+            if r != prev:
+                tmp.append((q, r, c + 1))
 
 g_count *= 3
 if d_count == g_count:
@@ -63,19 +63,17 @@ else:
 
 
 '''
-14
+12
 1 2
-1 3
-1 4
+2 3
+3 4
 2 5
-2 6
-5 7
-5 8
+5 6
+2 7
+2 8
 7 9
-8 10
-3 11
+9 10
+8 11
 11 12
-4 13
-4 14
 
 '''
