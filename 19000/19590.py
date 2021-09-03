@@ -6,6 +6,17 @@ Link : https://www.acmicpc.net/problem/19590
 import sys
 input = sys.stdin.readline
 
+n = int(input())
+beads = sorted([int(input()) for _ in range(n)])
+
+
+
+
+
+'''
+# 시간 초과
+import sys
+input = sys.stdin.readline
 
 n = int(input())
 beads = sorted([int(input()) for _ in range(n)])
@@ -23,20 +34,55 @@ while st < n:
         break
     # 가장 오른쪽이 1개가 되면, 가능한 모두 제거, 종료
     if right == n - 1 and beads[-1] == 1:
-        pass
+        while True:
+            if left + 1 > right:
+                break
+            beads[left] -= 1
+            beads[right] -= 1
+            if not beads[left]:
+                left += 1
+            right -= 1
+        break
     # 아닐 때,
     # r_now 기준으로 확인하며 진행
     # 1. 왼쪽이 l_now이면 하나씩 부딪히고 가장 오른쪽으로 이동
-    # 2. 왼쪽과 개수가 같다면 하나 부딪히고 왼쪽으로 이동
-    # 3. 왼쪽과 개수의 차이가 둘 이상이면 같아질때까지 부딪히고 가장 오른쪽으로 이동
+    # 2. 
+    # 3. 왼쪽과 개수가 같다면 하나 부딪히고 왼쪽으로 이동
+    # 4. 왼쪽과 개수의 차이가 둘 이상이면 같아질때까지 부딪히고 가장 오른쪽으로 이동
     else:
         if right - left == 1:
-            pass
+            beads[left] -= 1
+            beads[right] -= 1
+            right = n - 1
+        elif beads[right] == beads[right - 1]:
+            if right == n - 1 or beads[right] > beads[right + 1]:
+                beads[left] -= 1
+                beads[right] -= 1
+                right -= 1
+            else:
+                right = n - 1
         elif beads[right] == beads[right -1] + 1:
-            pass
+            beads[left] -= 1
+            beads[right] -= 1
+            right -= 1
         else:
-            pass
-    pass
+            diff = beads[right] - beads[right - 1]
+            if diff >= beads[left]:
+                beads[right] -= beads[left]
+                beads[left] = 0
+                left += 1
+            else:
+                beads[right] -= diff
+                beads[left] -= diff
+                right = n - 1
+    # 왼쪽 구슬이 0개면 하나 오른쪽으로
+    if not beads[left]:
+        left += 1
+        if right == left:
+            right = n - 1
+
+print(beads[left])
+'''
 
 
 '''
