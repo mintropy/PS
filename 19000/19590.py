@@ -7,7 +7,15 @@ import sys
 input = sys.stdin.readline
 
 n = int(input())
-beads = sorted([int(input()) for _ in range(n)])
+beads = {}
+for _ in range(n):
+    b = int(input())
+    if b in beads:
+        beads[b] += 1
+    else:
+        beads[b] = 1
+
+
 
 
 
