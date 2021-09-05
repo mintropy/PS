@@ -7,18 +7,17 @@ import sys
 input = sys.stdin.readline
 
 n = int(input())
-beads = {}
-for _ in range(n):
-    b = int(input())
-    if b in beads:
-        beads[b] += 1
-    else:
-        beads[b] = 1
+beads = [int(input()) for _ in range(n)]
 
+total_beads = sum(beads)
+max_bead = max(beads)
 
-
-
-
+if len(beads) == 1:
+    print(beads[0])
+elif max_bead * 2 > total_beads:
+    print(max_bead - (total_beads - max_bead))
+else:
+    print(total_beads % 2)
 
 
 '''
@@ -106,4 +105,21 @@ Counter Example
 6
 ans : 0
 
+9
+2
+2
+2
+3
+3
+3
+5
+5
+6
+ans : 1
+
+3
+5
+10
+15
+ans : 0
 '''
