@@ -4,8 +4,41 @@ Link : https://www.acmicpc.net/problem/22859
 """
 
 html = input().strip()
+ans = []
 
+div = False
+tag = False
+tmp = ' '
+for i in range(len(html) - 7):
+    s = html[i]
+    if s == '<':
+        tag = True
+        # div 태그인지 확인
+        if html[i + 1:i + 4] == 'div':
+            div = True
+        # 닫는 p태그인지 확인
+        elif html[i + 1:i + 3] == '/p':
+            ans.append(tmp.strip())
+            tmp = ' '
+    elif s == '>':
+        tag = False
+        # 태그가 끝날 때 div였으면 title로 추가
+        if div:
+            title = tmp.split('"')
+            ans.append('title : ' + title[1])
+            tmp = ' '
+            div = False
+    # div이면 내용 추가
+    elif div:
+        tmp += s
+    # div가 아니고 다른 tag속이 아닐 때
+    elif not div and not tag:
+        # 빈칸이 연속되거나, 가장 앞, 뒤가 아니게
+        if s == ' ' or tmp[-1] == ' ':
+            continue
+        tmp += s
 
+print(*ans, sep='\n')
 
 
 '''
@@ -45,7 +78,6 @@ for div in lines:
 
 print(*ans, sep='\n')
 '''
-
 
 '''
 # index error?
@@ -108,5 +140,6 @@ print(*ans, sep='\n')
 '''
 <main><div title="title"></div></main>
 <main><div title="title"></div><p>para</p></main>
+<main><p>para1</p><div title="title"><p>para2</p></div><p>para3</p></main>
 
 '''
