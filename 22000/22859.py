@@ -140,6 +140,6 @@ print(*ans, sep='\n')
 '''
 <main><div title="title"></div></main>
 <main><div title="title"></div><p>para</p></main>
-<main><p>para1</p><div title="title"><p>para2</p></div><p>para3</p></main>
+<main><p>para1</p><div title="tit  le"><p>para2</p></div><p>pa<i>dododo </i> ra3</p></main>
 
 '''
