@@ -179,4 +179,6 @@ print(*ans, sep='\n')
 <main><div title="title"></div><p>para</p></main>
 <main><p>para1</p><div title="tit  le"><p>para2</p></div><p>  pa<i>dod  odo </i> ra3</p></main>
 
+<main><div title="title"></div><p>  p  p  </p></main>
+
 '''
