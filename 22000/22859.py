@@ -3,6 +3,52 @@ Title : HTML 파싱
 Link : https://www.acmicpc.net/problem/22859
 """
 
+html = input().strip()
+
+ans = []
+# p태그가 시작되었는지
+is_p = False
+# 아무 태그 안인지
+is_tag = False
+# 태그 안
+tag = ''
+# p태그 사이
+paragraph = ''
+for s in html:
+    if s == '<':
+        is_tag = True
+    elif s == '>':
+        is_tag = False
+        if tag == 'p':
+            is_p = True
+        # p태그 닫힐 때
+        elif tag == '/p':
+            is_p = False
+            tmp = ''
+            for p in paragraph:
+                if p == ' ':
+                    if not tmp or tmp[-1] == ' ':
+                        continue
+                tmp += p
+            tmp = tmp.strip()
+            ans.append(tmp)
+            paragraph = ''
+        # 제목
+        elif tag.count('"') == 2:
+            title = tag.split('"')
+            ans.append('title : ' + title[1])
+        tag = ''
+    # 태그 내부일때
+    elif is_tag:
+        tag += s
+    # p태그 사이 일 때
+    elif not is_tag and is_p:
+        paragraph += s
+
+# 출력
+print(*ans, sep='\n')
+
+'''
 # WA
 # div, p태그로 split
 html = input().strip().split('<div')
@@ -35,7 +81,7 @@ for line in lines[1:]:
         tmp = tmp.strip()
         if tmp:
             print(tmp)
-
+'''
 
 '''
 # index error
