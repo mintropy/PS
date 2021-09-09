@@ -3,6 +3,42 @@ Title : HTML 파싱
 Link : https://www.acmicpc.net/problem/22859
 """
 
+# WA
+# div, p태그로 split
+html = input().strip().split('<div')
+lines = []
+for h in html:
+    lines.extend(h.split('<p>'))
+
+ans = []
+for line in lines[1:]:
+    # div 속성으로 반드시 title이 존재
+    if 'title="' in line:
+        title = line.split('"')
+        # ans.append('title : ' + title[1])
+        print('title : ' + title[1])
+    else:
+        tmp = ' '
+        # 태그 내부인지 아닌지
+        is_in_tag = False
+        for s in line:
+            if s == '<':
+                is_in_tag = True
+            elif s == '>':
+                is_in_tag = False
+            elif not is_in_tag:
+                # 연속된 공백 없도록
+                if s == ' ' and tmp[-1] == ' ':
+                    continue
+                tmp += s
+        # 앞/뒤 공백 없게
+        tmp = tmp.strip()
+        if tmp:
+            print(tmp)
+
+
+'''
+# index error
 html = input().strip()
 ans = []
 
@@ -39,6 +75,7 @@ for i in range(len(html) - 7):
         tmp += s
 
 print(*ans, sep='\n')
+'''
 
 
 '''
@@ -140,6 +177,6 @@ print(*ans, sep='\n')
 '''
 <main><div title="title"></div></main>
 <main><div title="title"></div><p>para</p></main>
-<main><p>para1</p><div title="tit  le"><p>para2</p></div><p>pa<i>dododo </i> ra3</p></main>
+<main><p>para1</p><div title="tit  le"><p>para2</p></div><p>  pa<i>dod  odo </i> ra3</p></main>
 
 '''
