@@ -8,20 +8,20 @@ input = sys.stdin.readline
 
 
 def check_explode(st):
-    global string, explode, string_next, string_before
+    global string, explode, string_next
     l_ex = len(explode)
     idx = st
     idx_ex = 0
     # 폭발 문자열인지 확인
     while idx_ex < l_ex:
+        if idx == l:
+            return False
         if string[idx] != explode[idx_ex]:
             return False
         idx_ex += 1
         if idx != l:
             idx = string_next[idx]
-        elif idx == l:
-            return False
-    string_next[st] = idx
+    string_next[st - 1] = idx
     return True
 
 
@@ -37,16 +37,12 @@ for i in range(1, l):
         prob.append([i, False])
 
 # 폭발 문자열이 될 수 있는 시작마다 확인
-for i in range(len(prob)):
+for i in range(len(prob) - 1, -1, -1):
     # 폭발 문자열인지 확인
     if check_explode(prob[i][0]):
         prob[i][1] = True
-        # 이전 가능성 중 폭발 문자열이 다시 가능한지
-        for j in range(i - 1, -1, -1):
-            if not prob[j][1] and check_explode(prob[j][0]):
-                prob[j][1] = True
 
-idx = string_next[1]
+idx = string_next[0]
 ans = ''
 while idx < l:
     ans += string[idx]
