@@ -11,6 +11,20 @@ schedual = [tuple(map(int, input().split())) for _ in range(n)]
 # 시작시간 오름차순 정렬
 schedual.sort(key=lambda x:x[0])
 
+
+
+
+
+'''
+# TLE
+import sys, heapq
+input = sys.stdin.readline
+
+n = int(input())
+schedual = [tuple(map(int, input().split())) for _ in range(n)]
+# 시작시간 오름차순 정렬
+schedual.sort(key=lambda x:x[0])
+
 # 사용자를 앞에서부터 채웠을 때
 heap = []
 # 비어있는 pc
@@ -41,3 +55,4 @@ max_pc = max(pc_num)
 print(max_pc + 1)
 for i in range(max_pc + 1):
     print(pc_num.count(i), end=' ')
+'''
