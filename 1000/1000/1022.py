@@ -18,4 +18,5 @@ for _ in range(1, max_grid + 1):
 
 grid = [[0] * (c2 - c1 + 1) for _ in range(r2 - r1 + 1)]
 # 가장 윗 줄부터 한줄씩 채우기
-
+# c1이 음수, 양수일때 다르게 시행
+# c1이 음수이면 
