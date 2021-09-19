@@ -27,12 +27,16 @@ for _ in range(int(input())):
         # 제한시간이 더 많이 남아있을 때
         # 야간이고 남은 시간이 5시간 이상이면 정액제
         if now >= 22 * 60 or now <= 3 * 60:
-            duration -= (24 + 8) * 60 - now
+            # 08:00 기준에서 지금시간까지 빼기
+            if now >= 22 * 60:
+                duration -= (24 + 8) * 60 - now
+            else:
+                duration -= 8 * 60 - now
             fee += 5000
             now = 8 * 60
-        # 야간 남은 시간 5시간 미만이고, 주간이면
+        # 야간 남은 시간 5시간 미만이거나, 주간이면
         # 21:~~ 까지 사용하기
-        elif now <= 21 * 60:
+        elif 3 * 60 < now < 21 * 60:
             time = 21 - now // 60
             # 더 사용할 시간이 적으면, 모두 사용
             if time * 60 >= duration:
@@ -54,6 +58,7 @@ for _ in range(int(input())):
                     now += 60
                     fee += 1000
                     duration -= 60
+                    continue
                 else:
                     fee += 1000
                     break
@@ -76,6 +81,18 @@ for _ in range(int(input())):
                 break
     print(fee)
 
+
+'''
+Counter Example
+1
+08:30 4316
+ans : 58000
+
+1
+03:00 720
+ans : 
+
+'''
 
 '''
 import sys
@@ -195,11 +212,4 @@ for _ in range(int(input())):
                     fee += left_time * 1000
                     break
     print(fee)
-'''
-
-
-'''
-1
-20:59 361
-
 '''
