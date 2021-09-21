@@ -58,9 +58,9 @@ def find_inner_area(grid: list, inner_area: list, first=False) -> list:
         for x, y in inner_area:
             for d in range(4):
                 nx, ny = x + dx[d], y + dy[d]
-                if not grid[nx][ny]:
-                    grid[nx][ny] = 2
-                    queue = collections.deque([(nx, ny)])
+                if grid[nx][ny] == 2:
+                    grid[x][y] = 2
+                    queue = collections.deque([(x, y)])
                     while queue:
                         a, b = queue.popleft()
                         for d in range(4):
@@ -108,11 +108,11 @@ print(time)
 '''
 7 7
 0 0 0 0 0 0 0
-0 0 0 1 0 0 0
-0 0 1 1 1 0 0
-0 1 1 0 1 1 0
-0 0 1 1 1 0 0
-0 0 0 1 0 0 0
+0 1 1 1 1 1 0
+0 1 0 1 0 1 0
+0 1 1 1 0 1 0
+0 0 1 0 0 1 0
+0 0 1 1 1 1 0
 0 0 0 0 0 0 0
 
 '''
