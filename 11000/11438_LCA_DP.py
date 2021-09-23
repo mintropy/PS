@@ -1,6 +1,12 @@
+"""
+Title : LCA 2
+Link : https://www.acmicpc.net/problem/11438
+"""
+
 import sys
+import collections
 sys.setrecursionlimit(int(1e6))
-input = lambda : sys.stdin.readline()
+input = sys.stdin.readline
 
 
 n = int(input())
@@ -12,48 +18,41 @@ for _ in range(n - 1):
 
 # 깊이
 depth = [0] * (n + 1)
-depth[1] = 1
 
 # 2^i 번째 부모
-log = 18
-parent = [[0] * log for _ in range(n + 1)]
+LOG = 21
+parent = [[0] * LOG for _ in range(n + 1)]
 
-# 부모 찾기
-def dfs(node, dpt):
-    global graph, depth, parent
-    for next in graph[node]:
-        if depth[next] == 0:
-            depth[next] = dpt + 1
-            parent[next][0] = node
-            dfs(next, dpt + 1)
-
-dfs(1, 1)
-
-for i in range(log - 1):
+# 각 점에서 부모 찾기 & 2^i 번째 부모 찾기
+queue = collections.deque([(1, 1)])
+while queue:
+    p, d = queue.popleft()
+    if depth[p]:
+        continue
+    depth[p] = d
+    for q in graph[p]:
+        if not depth[q]:
+            parent[q][0] = p
+            queue.append((q, d + 1))
+# 추가적 부모 관계
+for i in range(1, LOG):
     for j in range(1, n + 1):
-        if parent[j][i] > 0:
-            parent[j][i + 1] = parent[parent[j][i]][i]
-
-
-# lca
-def lca(a, b):
-    global depth, parent
-    if depth[a] < depth[b]:
-        a, b = b, a
-    x = depth[a] - depth[b]
-    for i in range(log - 1, -1, -1):
-        if x & (1 << i):
-            a = parent[a][i]
-
-    if a == b:
-        return a
-
-    for k in range(log - 1, -1, -1):
-        if parent[a][k] != parent[b][k]:
-            a, b = parent[a][k], parent[b][k]
-    return parent[a][0]
-
+        parent[j][i] = parent[parent[j][i - 1]][i - 1]
 
 for _ in range(int(input())):
     a, b = map(int, input().split())
-    print(lca(a, b))
+    # b 깊이가 더 깊거나 같도록
+    if depth[a] > depth[b]:
+        a, b = b, a
+    # 높이 맞춰주기
+    for i in range(LOG - 1, -1, -1):
+        if depth[b] - depth[a] >= 1 << i:
+            b = parent[b][i]
+    if a == b:
+        print(a)
+        continue
+    # 공통 조상 찾아가기
+    for i in range(LOG - 1, -1, -1):
+        if parent[a][i] != parent[b][i]:
+            a, b = parent[a][i], parent[b][i]
+    print(parent[a][0])
