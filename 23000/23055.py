@@ -1,6 +1,6 @@
 """
 Title : 공사장 표지판
-Link : 
+Link : https://www.acmicpc.net/problem/23055
 """
 
 n = int(input())

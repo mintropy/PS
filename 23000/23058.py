@@ -1,6 +1,6 @@
 """
 Title : 뒤집기 게임
-Link : 
+Link : https://www.acmicpc.net/problem/23058
 """
 
 import sys

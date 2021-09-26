@@ -1,6 +1,6 @@
 """
 Title : 도전 숫자왕
-Link : 
+Link : https://www.acmicpc.net/problem/23057
 """
 
 import sys

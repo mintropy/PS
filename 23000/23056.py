@@ -1,6 +1,6 @@
 """
 Title : 참가자 명단
-Link : 
+Link : https://www.acmicpc.net/problem/23056
 """
 
 import sys
