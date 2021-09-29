@@ -37,34 +37,34 @@ for _ in range(int(input())):
         print(prob_primes[0] - n)
         continue
     
-    queue = collections.deque([(n, 0)])
-    visited = [False] * (2_000_000 + 1)
     min_finger_snap = n
+    queue = collections.deque([(n, 0)])
+    # 최소 핑거 스냅 횟수로
+    visited = [n] * (1_000_000 + 1)
     while queue:
         m, finger_sanp = queue.popleft()
-        # 지금 핑거스냅으로 완료된 경우
-        if m in prob_primes:
-            min_finger_snap = finger_sanp
-            continue
         if finger_sanp >= min_finger_snap:
             break
-        # 이미 확인한 생명체 수 인 경우
-        if visited[m]:
+        # 이미 확인한 생명체 수 인경우
+        if finger_sanp > visited[m]:
             continue
-        visited[m] = True
+        else:
+            if m in prob_primes and finger_sanp < min_finger_snap:
+                min_finger_snap = finger_sanp
+            visited[m] = finger_sanp
         # 생명체 수가 a보다 작으면, 값 비교 후 continue
         if m < a:
             if min_finger_snap < finger_sanp + (prob_primes[0] - m):
                 min_finger_snap = finger_sanp + (prob_primes[0] - m)
             continue
         else:
-            if not visited[m // 2]:
+            if visited[m // 2] > finger_sanp + 1:
                 queue.append((m // 2, finger_sanp + 1))
-            if not visited[m // 3]:
+            if visited[m // 3] > finger_sanp + 1:
                 queue.append((m // 3, finger_sanp + 1))
-            if m + 1 < len(visited) and not visited[m + 1]:
+            if m + 1 < 1_000_001 and visited[m + 1] > finger_sanp + 1:
                 queue.append((m + 1, finger_sanp + 1))
-            if n > 0 and not visited[m - 1]:
+            if m > 0 and visited[m - 1] > finger_sanp + 1:
                 queue.append((m - 1, finger_sanp + 1))
     print(min_finger_snap)
 
