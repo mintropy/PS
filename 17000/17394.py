@@ -3,7 +3,6 @@ Title : 핑거 스냅
 Link : https://www.acmicpc.net/problem/17394
 """
 
-import bisect
 import collections
 import sys
 input = sys.stdin.readline
@@ -23,10 +22,10 @@ for _ in range(int(input())):
     n, a, b = MIIS()
     # a와 b사이 소수
     prob_primes = []
-    for i in range(bisect.bisect_left(primes, a), len(primes)):
-        if a <= primes[i] <= b:
-            prob_primes.append(primes[i])
-        else:
+    for p in primes:
+        if a <= p <= b:
+            prob_primes.append(p)
+        elif p > b:
             break
     
     # a, b 사이 소수가 없는 경우
@@ -46,6 +45,8 @@ for _ in range(int(input())):
         # 지금 핑거스냅으로 완료된 경우
         if m in prob_primes:
             min_finger_snap = finger_sanp
+            continue
+        if finger_sanp >= min_finger_snap:
             break
         # 이미 확인한 생명체 수 인 경우
         if visited[m]:
@@ -66,3 +67,10 @@ for _ in range(int(input())):
             if n > 0 and not visited[m - 1]:
                 queue.append((m - 1, finger_sanp + 1))
     print(min_finger_snap)
+
+'''
+Counter Example
+1
+1000000 29 29
+
+'''
