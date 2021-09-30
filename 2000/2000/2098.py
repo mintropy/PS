@@ -3,6 +3,43 @@ Title : 외판원 순회
 Link : https://www.acmicpc.net/problem/2098
 """
 
+import sys
+input = sys.stdin.readline
+
+
+def TSP(current: int, visited: int) -> int:
+    global n, city
+    # 모든 도시 순회 완료
+    if visited == (1 << n) - 1:
+        cost = city[current][0]
+        return cost if cost else 1 << 30
+    # 지금 도시, 방문상태를 확인했는지
+    cost = dp[current][visited]
+    if cost:
+        return cost
+    else:
+        cost = 1 << 30
+    # 인접 도시 확인
+    for i in range(1, n):
+        if not (visited & 1 << i):
+            move_cost = city[current][i]
+            if move_cost:
+                new_cost = TSP(i, visited | 1 << i)
+                if cost > move_cost + new_cost:
+                    cost = move_cost + new_cost
+    dp[current][visited] = cost
+    return dp[current][visited]
+
+
+n = int(input())
+city = [list(int(i) for i in input().split()) for _ in range(n)]
+dp = [[0] * (1 << n) for _ in range(n)]
+
+print(TSP(0, 1))
+
+
+'''
+# TLE
 import sys, itertools
 input = sys.stdin.readline
 
@@ -46,8 +83,7 @@ for c in range(2, n):
         min_cost = cost
 
 print(min_cost)
-
-
+'''
 
 '''
 # 전체 탐색 : 시간 초과
