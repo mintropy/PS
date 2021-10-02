@@ -3,10 +3,23 @@ Title : 사과나무
 Link : https://www.acmicpc.net/problem/19539
 """
 
+import sys
+input = sys.stdin.readline
 
+n = int(input())
+trees = list(map(int, input().split()))
+
+sum_length = sum(trees)
+count_2 = sum([i // 2 for i in trees])
+
+if sum_length % 3 == 0 and count_2 >= sum_length // 3:
+    print('YES')
+else:
+    print('NO')
 
 
 '''
+# 비효율적 풀이
 import sys
 input = sys.stdin.readline
 
