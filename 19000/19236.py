@@ -3,12 +3,13 @@ Title : 청소년 상어
 Link : https://www.acmicpc.net/problem/19236
 """
 
+import copy
 import sys
 input = sys.stdin.readline
 
 
-def dfs(i: int, j: int):
-    global fish, fish_by_num, max_fish, direction
+def dfs(i: int, j: int, fish: list):
+    global fish_by_num, max_fish, direction
     # 상어 위치 i, j
     # 더 먹는 물고기
     additional_fish = 0
@@ -22,14 +23,14 @@ def dfs(i: int, j: int):
         # 해당 위치에 물고기가 있을 때
         if fish[ni][nj * 2] > 0:
             # 상어가 이동할 위치 물고기 번호
-            fish_num = fish[ni][nj * 2 + 1]
+            fish_num = fish[ni][nj * 2]
             fish_pos = [ni, nj]
             # 상어를 해당 위치로 이동
             fish[i][j * 2] = 0
             fish[ni][nj * 2] = 20
             fish_by_num[fish_num] = []
             # 추가 탐색
-            more_additional_fish = dfs(ni, nj)
+            more_additional_fish = dfs(ni, nj, fish_move(copy.deepcopy(fish)))
             # 상어 이동 복귀
             fish[i][j * 2] = 20
             fish[ni][nj * 2] = fish_num
@@ -40,15 +41,15 @@ def dfs(i: int, j: int):
     return additional_fish
 
 
-def fish_move():
+def fish_move(fish: list) -> list:
     # 물고기 이동
-    global fish, fish_by_num, direction
+    global fish_by_num, direction
     for i in range(1, 17):
         # 물고기가 살아 있을 때
-        if fish_by_num:
+        if fish_by_num[i]:
             # 해당 물고기 위치, 방향
             x, y = fish_by_num[i]
-            d = fish[i][j + 2 + 1]
+            d = fish[x][y * 2 + 1]
             while True:
                 # 해당 방향으로 움직일 수 있는지 확인
                 nx, ny = x + direction[d][0], y + direction[d][1]
@@ -70,12 +71,10 @@ def fish_move():
                             fish_by_num[i] = [nx, ny]
                             fish_by_num[fish_num] = [x, y]
                         break
-                    # 해당 위치에 상어가 있다면
-                    elif fish_num == 20:
-                        d -= 1
-                        if d == 1:
-                            d = 8
-
+                d -= 1
+                if d == 0:
+                    d = 8
+    return fish
 
 
 
@@ -99,4 +98,4 @@ fish_by_num[fish_eaten_num] = []
 
 shark = [0, 0]
 
-print(dfs(*shark) + fish_eaten_num)
+print(dfs(*shark, fish) + fish_eaten_num)
