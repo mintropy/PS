@@ -11,24 +11,36 @@ arr = list(map(int, input().split()))
 
 price = [10000, 25000, 37000]
 
-# 1일권만, 연속 3일 3일권, 연속 2일 3일권
-# 연속 5일 5일권, 4일 5일권
-dp = [[[0, 0] for _ in range(n + 1)] for _ in range(5)]
+# i일에 쿠폰 j개를 가지고 있을 때
+# 범위 확인 하지 않기 위한 패딩
+dp = [[10 ** 7] * 50 for _ in range(n + 10)]
+dp[0][0] = 0
 
-for d in arr:
-    for i in range(3):
-        dp[i][d][0] = -1
+# 1일 >> n일 진행하며 쿠폰 늘리면서 가격 확인
+for i in range(n + 1):
+    for j in range(41):
+        if dp[i][j] != 10 ** 7:
+            price = dp[i][j]
+            # 다음 날 리조트에 가지 않는 경우
+            if i + 1 in arr:
+                if dp[i + 1][j] > price:
+                    dp[i + 1][j] = price
+            # 쿠폰을 사용할 수 있는 경우
+            if j >= 3:
+                if dp[i + 1][j - 3] > price:
+                    dp[i + 1][j - 3] = price
+            # 1일권, 3일권, 5일권 구매
+            # 3일, 5일권은 그 사이 기간 사용도 같이 표시
+            # 1일권
+            if dp[i + 1][j] > price + 10000:
+                dp[i + 1][j] = price + 10000
+            # 3일권
+            for d in range(1, 4):
+                if dp[i + d][j + 1] > price + 25000:
+                    dp[i + d][j + 1] = price + 25000
+            # 5일권
+            for d in range(1, 6):
+                if dp[i + d][j + 2] > price + 37000:
+                    dp[i + d][j + 2] = price + 37000
 
-for d in range(1, n + 1):
-    # 가능한 날
-    if not dp[0][d][0]:
-        dp[0][d][0] = 10000 + dp[0][d - 1][0]
-    # 불가능한 날
-    else:
-        dp[0][d][0] = dp[0][d - 1][0]
-
-
-# 3일권
-# 연속 3일중 며칠이 가능한지
-day_count = 0
-
+print(min(dp[n]))
