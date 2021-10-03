@@ -2,6 +2,10 @@
 Title : 상어 초등학교
 Link : https://www.acmicpc.net/problem/21608
 """
+# 우선은 포기
+# 여러가지 경우가 있을 거라 생각해서 dfs로 구성
+# 경우의 수는 한가지만 있을 것 같아서 다른 방법으로 구현하기
+
 
 import sys
 input = sys.stdin.readline
@@ -60,27 +64,41 @@ def search(student_idx: int):
         friends_near = 0
         max_prob_seat = []
         for i in range(len(prob_seat)):
+            x, y = prob_seat[i]
+            empty = 0
+            # 4방향 탐색 
+            if x > 0 and classroom[x - 1][y] == 0:
+                empty += 1
+            if x < n - 1 and classroom[x + 1][y] == 0:
+                empty += 1
+            if y > 0 and classroom[x][y -1 ] == 0:
+                empty += 1
+            if y < n - 1 and classroom[x][y + 1] == 0:
+                empty += 1
+            # 같은 자리가 얼마나 나왔는지
             same_seat_count = 0
             for j in range(i + 1, len(prob_seat)):
                 if prob_seat[i] == prob_seat[j]:
                     same_seat_count += 1
             if same_seat_count > friends_near:
                 friends_near = same_seat_count
-                max_prob_seat = [prob_seat[i]]
+                max_prob_seat = [(prob_seat[i], empty)]
             elif same_seat_count == friends_near:
-                max_prob_seat.append(prob_seat[i])
-        # 가능한 주변 자리를 모두 탐색
-        for x, y in max_prob_seat:
+                max_prob_seat.append((prob_seat[i], empty))
+        # 친구들 주변 자리가 있다면
+        if max_prob_seat != []:
+            # 가능한 주변 자리중 빈 인접자리가 가장 많고, 가장 위, 왼쪽 자리만 탐색
+            max_prob_seat.sort(key=lambda x:-x[1])
+            x, y = max_prob_seat[0][0]
             # 학생 배치 후 탐색 >> 탐색 후 제거
             classroom[x][y] = student
             students_seat[student] = [x, y]
-            happy = search(student_idx + 1)
+            prob_happiness = search(student_idx + 1)
             classroom[x][y] = 0
             students_seat[student] = []
-            if happy > prob_happiness:
-                prob_happiness = happy
     # 자리에 앉은 친구가 없는 경우
-    else:
+    # 또는 친구들 주변 빈자리가 없는 경우
+    if prob_happiness == 0:
         prob_seat = []
         empty_seat = 0
         for i in range(n):
