@@ -1,6 +1,6 @@
 """
 Title : 1, 2, 3 더하기
-Link : https://www.acmicpc.net/problem/9059
+Link : https://www.acmicpc.net/problem/9095
 """
 
 import sys
