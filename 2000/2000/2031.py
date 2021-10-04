@@ -3,9 +3,7 @@ Title : 이 쿠키 달지 않아!
 Link : https://www.acmicpc.net/problem/2031
 """
 
-
-
-# python TLE & pypy WA
+# WA
 import sys
 input = sys.stdin.readline
 MIIS = lambda: map(int, input().split())
@@ -35,28 +33,21 @@ foods_count = [1] * n
 for i in range(n):
     foods_count[i] = bin_search(i, n - 1, d)
 
-# j번째 차를 마실 때, i번째 음식을 먹기 시작
-dp = [[0] * n for _ in range(k)]
-dp[0] = foods_count[::]
+# i잔을 j번째에 마셨을 때
+dp = [[0] * (n + 1) for _ in range(k + 1)]
 
-max_foods = 0
-for i in range(1, k):
-    tea_before = n - 1
-    for j in range(n - 1, -1, -1):
-        while True:
-            if tea_before == -1:
-                break
-            elif foods[j] - foods[tea_before] >= d:
-                if foods[tea_before] == foods[tea_before - 1]:
-                    tea_before -= 1
-                else:
-                    break
-            else:
-                tea_before -= 1
-        if tea_before == -1:
-            break
-        dp[i][j] = dp[i - 1][tea_before] + foods_count[j]
-        if dp[i][j] > max_foods:
-            max_foods = dp[i][j]
+for i in range(k):
+    for j in range(n):
+        # j번 음식 전까지 영향을 받은 음식 수
+        if j > 0:
+            food_before = dp[i][j]
+        else:
+            food_before = 0
+        # j번 음식에 마시면 효과받는 음식 수
+        food_next = foods_count[j]
+        if dp[i + 1][j + food_next] < food_before + food_next:
+            dp[i + 1][j + food_next] = food_before + food_next
+        if j > 0 and dp[i][j] < dp[i][j - 1]:
+            dp[i][j] = dp[i][j - 1]
 
-print(max_foods)
+print(max(dp[k]))
