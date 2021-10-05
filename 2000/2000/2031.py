@@ -3,7 +3,6 @@ Title : 이 쿠키 달지 않아!
 Link : https://www.acmicpc.net/problem/2031
 """
 
-# WA
 import sys
 input = sys.stdin.readline
 MIIS = lambda: map(int, input().split())
@@ -36,6 +35,19 @@ for i in range(n):
 # i잔을 j번째에 마셨을 때
 dp = [[0] * (n + 1) for _ in range(k + 1)]
 
+for i in range(n):
+    foods_now = foods_count[i]
+    for j in range(1, k + 1):
+        # 해당 차를 마시는지에 대하여
+        dp[j][i + foods_now] = max(dp[j][i + foods_now], dp[j - 1][i] + foods_now)
+        # 다음 비교할 상태
+        dp[j][i + 1] = max(dp[j][i], dp[j][i + 1])
+
+print(dp[k][n])
+
+
+''''
+# WA
 for i in range(k):
     for j in range(n):
         # j번 음식 전까지 영향을 받은 음식 수
@@ -51,3 +63,4 @@ for i in range(k):
             dp[i][j] = dp[i][j - 1]
 
 print(max(dp[k]))
+'''
