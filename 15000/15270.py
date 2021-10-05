@@ -8,7 +8,7 @@ input = sys.stdin.readline
 MIIS = lambda: map(int, input().split())
 
 
-def dfs(friends_check: int, friends_pairs: int, friends_idx: int) -> int:
+def dfs(friends_check: int, friends_idx: int) -> int:
     global n, m, friends
     if friends_idx == n + 1:
         return 0
@@ -21,10 +21,10 @@ def dfs(friends_check: int, friends_pairs: int, friends_idx: int) -> int:
             for j in friends[i]:
                 # 다음 인덱스 친구이고, 무대에 올라가지 않았을 때
                 if i < j and not friends_check & (1 << j):
-                    pairs = dfs(friends_check | (1 << i | 1 << j), friends_pairs + 1, i + 1)
+                    pairs = dfs(friends_check | (1 << i | 1 << j), i + 1) + 1
                     if pairs > max_pairs:
                         max_pairs = pairs
-    return max(friends_pairs, max_pairs)
+    return max_pairs
 
 
 n, m = MIIS()
@@ -35,7 +35,7 @@ for _ in range(m):
     friends[v].append(u)
 
 
-pairs = dfs(0, 0, 1)
+pairs = dfs(0, 1)
 
 # 친구 쌍의 수 * 2 == 친수 수 >> 친구 수 출력
 if pairs * 2 == n:
