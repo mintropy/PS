@@ -21,7 +21,7 @@ def find_max_block_group(n: int, blocks: list) -> int:
     dx, dy = [-1, 0, 1, 0], [0, 1, 0, -1]
     for i in range(n):
         for j in range(n):
-            if blocks[i][j] > 0:
+            if blocks[i][j] > 0 and not visited[i][j]:
                 # 지금 그룹의 블록 색
                 color_now = blocks[i][j]
                 # 지금 그룹의 블록 개수
@@ -53,12 +53,14 @@ def find_max_block_group(n: int, blocks: list) -> int:
                             elif blocks[nx][ny] == color_now and not visited[nx][ny]:
                                 queue.append((nx, ny))
                 # 탐색 종료 / 선택할 블록인지 확인
+                rainbow_blocks = len(list(rainbow_blocks))
                 if verify(maximum_group_size, blocks_count, maximum_group_size_rainbow,\
-                        len(list(rainbow_blocks)), maximum_group_standard_block, standard_block):
+                        rainbow_blocks, maximum_group_standard_block, standard_block):
                     maximum_group_size = blocks_count
-                    maximum_group_size_rainbow = len(list(rainbow_blocks))
+                    maximum_group_size_rainbow = rainbow_blocks
                     maximum_group_standard_block = standard_block
-    if maximum_group_size == 0:
+    # 블록 그룹에 2개 이상 있어야 함
+    if maximum_group_size + maximum_group_size_rainbow < 2:
         return 0
     else:
         # 기준 블록 기준으로 빈 공간으로 바꾸기
@@ -68,14 +70,15 @@ def find_max_block_group(n: int, blocks: list) -> int:
 
 
 def verify(count_before, count_after, rainbow_before, rainbow_after, standard_before, standard_after):
-    # 새로 찾은 구역을 선택하는지
-    if count_before < count_after:
+    # 새로 찾은 구역을 선택하는지 확인하는 함수
+    if count_before + rainbow_before < count_after + rainbow_after:
         return True
-    elif count_before == count_after:
-        if rainbow_before == rainbow_after:
+    elif count_before + rainbow_before == count_after + rainbow_after:
+        if rainbow_before < rainbow_after:
             return True
         elif rainbow_before == rainbow_after:
-            if standard_before > standard_after:
+            # 문제 기준 행, 열 작다면 선택
+            if standard_before[0] < standard_after[0] or (standard_before[0] == standard_after[0] and standard_before[1] > standard_after[1]):
                 return True
     return False
 
