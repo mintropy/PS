@@ -39,7 +39,7 @@ def find_max_block_group(n: int, blocks: list) -> int:
                     elif blocks[x][y] == color_now and not visited[x][y]:
                         visited[x][y] = True
                         blocks_count += 1
-                        # 기준 블록인지 확인
+                        # 기준 블록인지 확인 / 행, 열 번호 작은 순
                         if x < standard_block[0] or (x == standard_block[0] and y < standard_block[1]):
                             standard_block = [x, y]
                     else:
@@ -77,8 +77,8 @@ def verify(count_before, count_after, rainbow_before, rainbow_after, standard_be
         if rainbow_before < rainbow_after:
             return True
         elif rainbow_before == rainbow_after:
-            # 문제 기준 행, 열 작다면 선택
-            if standard_before[0] < standard_after[0] or (standard_before[0] == standard_after[0] and standard_before[1] > standard_after[1]):
+            # 문제 기준 행, 열 크다면 선택
+            if standard_before[0] < standard_after[0] or (standard_before[0] == standard_after[0] and standard_before[1] < standard_after[1]):
                 return True
     return False
 
@@ -128,11 +128,8 @@ def gravity(n: int, blcoks: list):
 
 
 def rotate(n: int, blocks: list) -> list:
-    new_blocks = [[-2] * n for _ in range(n)]
-    for i in range(n):
-        for j in range(n):
-            new_blocks[n - i - 1][j] = blocks[j][i]
-    return new_blocks
+    new_blocks = list(zip(*blocks))[::-1]
+    return [list(line) for line in new_blocks]
 
 
 n, m = MIIS()
