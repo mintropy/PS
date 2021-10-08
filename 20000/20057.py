@@ -7,8 +7,15 @@ import sys
 input = sys.stdin.readline
 
 
-
-
+def move_dust(field: list, x: int, y: int, d: int):
+    global dx, dy, dust_move
+    # x, y 위치로 d방향으로 이동했을 때, 먼지 이동
+    dust_now = field[x][y]
+    field[x][y] = 0
+    # 각 이동방향으로 먼지 이동
+    # 범위를 벗어나면 벗어나는 먼지로 기록
+    
+    pass
 
 
 n = int(input())
@@ -20,6 +27,21 @@ direction = 3
 moves = [i // 2 for i in range(2, n * 2 + 1)]
 dx, dy = (-1, 0, 1, 0), (0, 1, 0, -1)
 x = y = n // 2
+
+# 각 방향별 먼지 이동 방향
+dust_move = [
+    [
+        (-2, 0, 5), (-1, -1, 10), (-1, 1, 10), (0, -2, 2), (0, -1, 7), (0, 1, 7), (0, 2, 2), (1, -1, 1), (1, 1, 1)
+    ], [], [], []
+]
+# 다른 방향 설정
+for d1, d2, v in dust_move[0]:
+    dust_move[1].append((d2, -d1, v))
+for d1, d2, v in dust_move[0]:
+    dust_move[2].append((-d1, d2, v))
+for d1, d2, v in dust_move[0]:
+    dust_move[3].append((d2, d1, v))
+
 
 # 경계 밖으로 벗어난 먼지
 dust_outside = 0
