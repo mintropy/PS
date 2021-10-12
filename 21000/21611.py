@@ -47,49 +47,46 @@ def ball_front_explode(n: int, magical_linear_map: list) -> int:
     while True:
         # 폭발이 있었는지
         is_explode = False
-        # 채우기 시작하면 되는 시작 구간
-        idx = 1
+        # 연속된 구슬의 위치
+        # 구슬을 계속 당기지 말고, 4개 이상이면 0으로 바꾸기만 하자
+        balls_idx = []
         # 지금 확인 하는 숫자, 연속 개수
         ball_num_now = 0
-        ball_continuous = 0
         for i in range(1, n ** 2):
-            # 빈공간이면 추가하고 넘어가기
+            # 빈공간이면 넘어가기
             if magical_linear_map[i] == 0:
                 continue
-            # 새로운 공이 시작되거나, 기존과 같은 공일때
-            elif ball_continuous == 0 or ball_num_now == magical_linear_map[i]:
+            # 기존에 공을 보고 있지 않았거나, 기존과 같은 공일때
+            elif len(balls_idx) == 0:
                 ball_num_now = magical_linear_map[i]
-                ball_continuous += 1
-            # 아니라면 폭발 or 채우기
+                balls_idx = [i]
+            elif ball_num_now == magical_linear_map[i]:
+                balls_idx.append(i)
+            # 새로운 공이 시작되고, 이전 공 정보 있을때 폭발
+            # 구슬을 당기지 않으면, 폭발이 아닐 때 작업 필요 ㄴㄴ
             else:
-                if ball_continuous >= 4:
-                    score += ball_num_now * ball_continuous
+                if len(balls_idx) >= 4:
+                    score += ball_num_now * len(balls_idx)
                     is_explode = True
-                else:
-                    for _ in range(ball_continuous):
-                        magical_linear_map[idx] = ball_num_now
-                        idx += 1
+                    # 폭발할 구슬 위치 모두 0으로
+                    for j in balls_idx:
+                        magical_linear_map[j] = 0
                 # 지금 위치에서 다시 공 개수 세는 카운트하기
-                # 빈 공간일 때
-                if magical_linear_map[i] == 0:
-                    ball_continuous = 0
-                # 아닐 때
+                # 빈 공간인지에 따라
+                ball_num_now = magical_linear_map[i]
+                if ball_num_now != 0:
+                    balls_idx = [i]
                 else:
-                    ball_num_now = magical_linear_map[i]
-                    ball_continuous = 1
+                    balls_idx = []
         # 마지막 부분 입력 or 폭발
-        if ball_continuous >= 4:
-            score += ball_num_now * ball_continuous
+        if len(balls_idx) >= 4:
+            score += ball_num_now * len(balls_idx)
             is_explode = True
-        else:
-            for _ in range(ball_continuous):
-                magical_linear_map[idx] = ball_num_now
-                idx += 1
+            for j in balls_idx:
+                magical_linear_map[j] = 0
         # 변화가 없을 때
         if not is_explode:
             return score, magical_linear_map
-        # 남은 뒷공간 0으로
-        magical_linear_map = magical_linear_map[:idx] + [0] * (n ** 2 - idx)
 
 
 def new_balls(n: int, magical_linear_map: list) -> list:
@@ -99,14 +96,16 @@ def new_balls(n: int, magical_linear_map: list) -> list:
     ball_num_now = 0
     ball_continuous = 0
     for i in range(1, n ** 2):
-        # 더이상 변환하여 입력할 수 없을 때
+        # 빈공간이면 넘어가기
         if magical_linear_map[i] == 0:
-            break
+            continue
+        # 새로운 리스트에 추가하지 못할 때
         if idx_input == n ** 2:
             break
         # 같은 공이 연속될 때
         if ball_num_now == magical_linear_map[i]:
             ball_continuous += 1
+        # 다른 공이 나오면 정보 입력
         else:
             if ball_num_now != 0:
                 # 이전 공에 대한 정보 처리
@@ -115,7 +114,14 @@ def new_balls(n: int, magical_linear_map: list) -> list:
                 idx_input += 2
             # 새로운 공 정보 입력
             ball_num_now = magical_linear_map[i]
-            ball_continuous = 1
+            if ball_num_now != 0:
+                ball_continuous = 1
+            else:
+                ball_continuous = 0
+    # 입력하지 못한 공 정보가 있는지
+    if idx_input < n ** 2 and ball_continuous > 0:
+        new_magical_linear_map[idx_input] = ball_continuous
+        new_magical_linear_map[idx_input + 1] = ball_num_now
     return new_magical_linear_map
 
 
@@ -139,9 +145,10 @@ for _ in range(m):
     # d방향 s칸에 구슬 파괴
     magical_linear_map = freeze_balls(magical_linear_map, d, s, linear_idx)
     # 구슬 앞으로 & 폭발
+    # 구슬을 앞으로 당기지는 않음
     score, magical_linear_map = ball_front_explode(n, magical_linear_map)
     totla_score += score
-    # 구슬 변화
+    # 구슬 변화 / 중간에 빈 공간도 확인하며 채워넣기
     magical_linear_map = new_balls(n, magical_linear_map)
 
 print(totla_score)
