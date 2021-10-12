@@ -39,21 +39,75 @@ def freeze_balls(magical_linear_map: list, d: int, s: int, linear_idx: list):
         magical_linear_map[linear_idx[d][i]] = 0
 
 
-def ball_front_explode(n: int, magical_linear_map: list):
+def ball_front_explode(n: int, magical_linear_map: list) -> int:
+    # 구슬이 폭발할때마다 점수를 저장해서 리턴
+    score = 0
     while True:
         # 지금 탐색하는 비어있는 자리 left, 앞으로 당겨야 하는 구슬 자리 right
-        left, right = 1, 1
+        left = right = 1
         # 폭발이 있었는지
         is_explode = False
         # 지금 확인 하는 숫자, 연속 개수
         ball_num_now = 0
         ball_continuous = 0
         while left < n ** 2 and right < n ** 2:
-            
-            pass
-        
+            # left를 빈자리가 있을 때 까지 옮기기
+            if magical_linear_map[left] != 0:
+                left += 1
+                if right <= left:
+                    right = left + 1
+            # right가 다른 구슬을 발견할때까지 옮기기
+            elif magical_linear_map[right] == 0:
+                right += 1
+            else:
+                # 새로 발견하는 구슬쌍인지, 아니면 기존 구슬 쌍인지
+                if ball_continuous == 0:
+                    ball_num_now = magical_linear_map[right]
+                    ball_continuous = 1
+                else:
+                    # 기존 구슬이 연속되고 있었으면 앞의 연속되 구슬 확인
+                    # 같은 종류 구슬이면 연속 + 1
+                    # 다른 종류 구슬이면, 앞의 구슬이 폭발하는지 확인
+                    if ball_num_now == magical_linear_map[right]:
+                        ball_continuous += 1
+                    else:
+                        # 구슬 폭발
+                        if ball_continuous >= 4:
+                            score += ball_num_now * ball_continuous
+                            is_explode = True
+                        else:
+                            for _ in range(ball_continuous):
+                                magical_linear_map[left] = ball_num_now
+                                left += 1
+                        ball_continuous = 0
+                # 오른쪽 자리 비워주고 이동
+                magical_linear_map[right] = 0
+                right += 1
         if not is_explode:
-            return
+            return score
+
+
+def new_balls(n: int, magical_linear_map: list) -> list:
+    new_magical_linear_map = [0] * (n ** 2)
+    # 새로 변하는 구슬 입력하는 인덱스, 구슬을 세는 인덱스
+    idx_input = idx_read = 1
+    while idx_input < n ** 2 and idx_read < n ** 2:
+        # idx_read를 모두 움직여서 같은 구슬 쌍을 모두 탐색
+        # 지금 확인 하는 숫자, 연속 개수
+        ball_num_now = magical_linear_map[idx_read]
+        ball_continuous = 1
+        idx_read += 1
+        while idx_read < n ** 2:
+            if ball_num_now == magical_linear_map[idx_read]:
+                ball_continuous += 1
+                idx_read += 1
+            else:
+                break
+        # 새로운 구슬로 입력
+        new_magical_linear_map[idx_input] = ball_continuous
+        new_magical_linear_map[idx_input + 1] = ball_num_now
+        idx_input += 2
+    return new_magical_linear_map
 
 
 n, m = MIIS()
@@ -76,8 +130,8 @@ for _ in range(m):
     # d방향 s칸에 구슬 파괴
     freeze_balls(magical_linear_map, d, s, linear_idx)
     # 구슬 앞으로 & 폭발
-    
+    score += ball_front_explode(n, magical_linear_map)
     # 구슬 변화
-    
+    magical_linear_map = new_balls(n, magical_linear_map)
 
 print(score)
