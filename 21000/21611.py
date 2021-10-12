@@ -3,6 +3,7 @@ Title : 마법사 상어와 블리자드
 Link : https://www.acmicpc.net/problem/21611
 """
 
+import collections
 import sys
 input = sys.stdin.readline
 MIIS = lambda: map(int, input().split())
@@ -33,80 +34,88 @@ def square_to_linear(n: int, magical_map: int) -> list:
     return magical_linear_map
 
 
-def freeze_balls(magical_linear_map: list, d: int, s: int, linear_idx: list):
+def freeze_balls(magical_linear_map: list, d: int, s: int, linear_idx: list) -> list:
     # 마법을 사용해서 구슬 파괴
     for i in range(s):
         magical_linear_map[linear_idx[d][i]] = 0
+    return magical_linear_map
 
 
 def ball_front_explode(n: int, magical_linear_map: list) -> int:
     # 구슬이 폭발할때마다 점수를 저장해서 리턴
     score = 0
     while True:
-        # 지금 탐색하는 비어있는 자리 left, 앞으로 당겨야 하는 구슬 자리 right
-        left = right = 1
         # 폭발이 있었는지
         is_explode = False
+        # 채우기 시작하면 되는 시작 구간
+        idx = 1
         # 지금 확인 하는 숫자, 연속 개수
         ball_num_now = 0
         ball_continuous = 0
-        while left < n ** 2 and right < n ** 2:
-            # left를 빈자리가 있을 때 까지 옮기기
-            if magical_linear_map[left] != 0:
-                left += 1
-                if right <= left:
-                    right = left + 1
-            # right가 다른 구슬을 발견할때까지 옮기기
-            elif magical_linear_map[right] == 0:
-                right += 1
+        for i in range(1, n ** 2):
+            # 빈공간이면 추가하고 넘어가기
+            if magical_linear_map[i] == 0:
+                continue
+            # 새로운 공이 시작되거나, 기존과 같은 공일때
+            elif ball_continuous == 0 or ball_num_now == magical_linear_map[i]:
+                ball_num_now = magical_linear_map[i]
+                ball_continuous += 1
+            # 아니라면 폭발 or 채우기
             else:
-                # 새로 발견하는 구슬쌍인지, 아니면 기존 구슬 쌍인지
-                if ball_continuous == 0:
-                    ball_num_now = magical_linear_map[right]
-                    ball_continuous = 1
+                if ball_continuous >= 4:
+                    score += ball_num_now * ball_continuous
+                    is_explode = True
                 else:
-                    # 기존 구슬이 연속되고 있었으면 앞의 연속되 구슬 확인
-                    # 같은 종류 구슬이면 연속 + 1
-                    # 다른 종류 구슬이면, 앞의 구슬이 폭발하는지 확인
-                    if ball_num_now == magical_linear_map[right]:
-                        ball_continuous += 1
-                    else:
-                        # 구슬 폭발
-                        if ball_continuous >= 4:
-                            score += ball_num_now * ball_continuous
-                            is_explode = True
-                        else:
-                            for _ in range(ball_continuous):
-                                magical_linear_map[left] = ball_num_now
-                                left += 1
-                        ball_continuous = 0
-                # 오른쪽 자리 비워주고 이동
-                magical_linear_map[right] = 0
-                right += 1
+                    for _ in range(ball_continuous):
+                        magical_linear_map[idx] = ball_num_now
+                        idx += 1
+                # 지금 위치에서 다시 공 개수 세는 카운트하기
+                # 빈 공간일 때
+                if magical_linear_map[i] == 0:
+                    ball_continuous = 0
+                # 아닐 때
+                else:
+                    ball_num_now = magical_linear_map[i]
+                    ball_continuous = 1
+        # 마지막 부분 입력 or 폭발
+        if ball_continuous >= 4:
+            score += ball_num_now * ball_continuous
+            is_explode = True
+        else:
+            for _ in range(ball_continuous):
+                magical_linear_map[idx] = ball_num_now
+                idx += 1
+        # 변화가 없을 때
         if not is_explode:
-            return score
+            return score, magical_linear_map
+        # 남은 뒷공간 0으로
+        magical_linear_map = magical_linear_map[:idx] + [0] * (n ** 2 - idx)
 
 
 def new_balls(n: int, magical_linear_map: list) -> list:
     new_magical_linear_map = [0] * (n ** 2)
-    # 새로 변하는 구슬 입력하는 인덱스, 구슬을 세는 인덱스
-    idx_input = idx_read = 1
-    while idx_input < n ** 2 and idx_read < n ** 2:
-        # idx_read를 모두 움직여서 같은 구슬 쌍을 모두 탐색
-        # 지금 확인 하는 숫자, 연속 개수
-        ball_num_now = magical_linear_map[idx_read]
-        ball_continuous = 1
-        idx_read += 1
-        while idx_read < n ** 2:
-            if ball_num_now == magical_linear_map[idx_read]:
-                ball_continuous += 1
-                idx_read += 1
-            else:
-                break
-        # 새로운 구슬로 입력
-        new_magical_linear_map[idx_input] = ball_continuous
-        new_magical_linear_map[idx_input + 1] = ball_num_now
-        idx_input += 2
+    # 새로 변하는 구슬 입력위치 인덱스
+    idx_input = 1
+    ball_num_now = 0
+    ball_continuous = 0
+    for i in range(1, n ** 2):
+        # 더이상 변환하여 입력할 수 없을 때
+        if magical_linear_map[i] == 0:
+            break
+        if idx_input == n ** 2:
+            break
+        # 같은 공이 연속될 때
+        if ball_num_now == magical_linear_map[i]:
+            ball_continuous += 1
+        else:
+            if ball_num_now != 0:
+                # 이전 공에 대한 정보 처리
+                new_magical_linear_map[idx_input] = ball_continuous
+                new_magical_linear_map[idx_input + 1] = ball_num_now
+                idx_input += 2
+            # 새로운 공 정보 입력
+            ball_num_now = magical_linear_map[i]
+            ball_continuous = 1
     return new_magical_linear_map
 
 
@@ -123,15 +132,16 @@ for _ in range(7, n + 1, 2):
         l1, l2 = linear_idx[i][-1], linear_idx[i][-2]
         linear_idx[i].append(l1 + (l1 - l2 + 8))
 
-score = 0
+totla_score = 0
 # 블리자드 실행
 for _ in range(m):
     d, s = map(int, input().split())
     # d방향 s칸에 구슬 파괴
-    freeze_balls(magical_linear_map, d, s, linear_idx)
+    magical_linear_map = freeze_balls(magical_linear_map, d, s, linear_idx)
     # 구슬 앞으로 & 폭발
-    score += ball_front_explode(n, magical_linear_map)
+    score, magical_linear_map = ball_front_explode(n, magical_linear_map)
+    totla_score += score
     # 구슬 변화
     magical_linear_map = new_balls(n, magical_linear_map)
 
-print(score)
+print(totla_score)
