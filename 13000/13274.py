@@ -23,6 +23,21 @@ for _ in range(k):
     l, r, x = MIIS()
     if x == 0:
         continue
+    for i in range(l - 1, r):
+        seq[i] += x
+    if x > 0 and r < n:
+        seq = seq[:l - 1] + sorted(seq[l - 1:])
+    elif x < 0 and l > 0:
+        seq = sorted(seq[:r]) + seq[r:]
+
+print(*seq)
+'''
+
+'''
+for _ in range(k):
+    l, r, x = MIIS()
+    if x == 0:
+        continue
     elif x > 0:
         stack = []
         for i in range(r - 1, l - 2, -1):
