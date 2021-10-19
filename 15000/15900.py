@@ -3,7 +3,6 @@ Title : 나무 탈출
 Link : https://www.acmicpc.net/problem/15900
 """
 
-import collections
 import sys
 input = sys.stdin.readline
 
@@ -17,23 +16,25 @@ for _ in range(n - 1):
 
 # 각 점의 깊이
 depth = [0] * (n + 1)
-# 잎 노드의 깊이만 저장
-leaf_depth = []
-queue = collections.deque([(1, 0)])
+depth[1] = 1
+# 잎 노드의 깊이의 합 저장
+leaf_depth = 0
+stack = [1]
 
-while queue:
-    x, d = queue.popleft()
+while stack:
+    x = stack.pop()
     # 잎 노드
     if x != 1 and len(trees[x]) == 1:
-        leaf_depth.append(d)
+        leaf_depth += depth[x] - 1
         continue
     # 아니라면 순회
+    d = depth[x]
     for y in trees[x]:
-        if depth[y] == 0:
+        if not depth[y]:
             depth[y] = d + 1
-            queue.append((y, d + 1))
+            stack.append(y)
 
-if sum(leaf_depth) % 2 == 0:
-    print('No')
-else:
+if leaf_depth % 2:
     print('Yes')
+else:
+    print('No')
