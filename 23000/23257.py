@@ -19,26 +19,26 @@ def multiple_XOR(values: list):
 
 n, m = MIIS()
 montly_bong = list(MIIS())
+# 월봉값을 절댓값으로 저장
 for i in range(n):
     montly_bong[i] = abs(montly_bong[i])
-
-dp = [[montly_bong[i]] for i in range(n)]
-# 2개에서 n개 선택
-for _ in range(2, m + 1):
-    for i in range(n):
-        price_list_next = []
-        price_list_now = dp[i][::]
-        price_next = -1
-        for j in range(i + 1):
-            price_list_now.append(montly_bong[j])
-            xor_value = multiple_XOR(price_list_now)
-            if xor_value >= price_next:
-                price_next = xor_value
-                price_list_next = price_list_now[::]
-            price_list_now.pop()
-        dp[i] = price_list_next[::]
 
 if m == 1:
     print(max(montly_bong))
 else:
+    dp = [[montly_bong[i]] for i in range(n)]
+    # 2개에서 n개 선택
+    for _ in range(2, m + 1):
+        for i in range(n):
+            price_list_next = []
+            price_list_now = dp[i][::]
+            price_next = -1
+            for j in range(i + 1):
+                price_list_now.append(montly_bong[j])
+                xor_value = multiple_XOR(price_list_now)
+                if xor_value >= price_next:
+                    price_next = xor_value
+                    price_list_next = price_list_now[::]
+                price_list_now.pop()
+            dp[i] = price_list_next[::]
     print(max([multiple_XOR(dp[i]) for i in range(n)]))
