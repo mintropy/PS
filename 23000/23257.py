@@ -10,13 +10,6 @@ input = sys.stdin.readline
 MIIS = lambda: map(int, input().split())
 
 
-def multiple_XOR(values: list):
-    value_now = values[0] ^ values[1]
-    for i in range(1, len(values) - 1):
-        value_now |= values[i] ^ values[i + 1]
-    return value_now
-
-
 n, m = MIIS()
 montly_bong = list(MIIS())
 # 월봉값을 절댓값으로 저장
@@ -26,19 +19,23 @@ for i in range(n):
 if m == 1:
     print(max(montly_bong))
 else:
-    dp = [[montly_bong[i]] for i in range(n)]
-    # 2개에서 n개 선택
-    for _ in range(2, m + 1):
+    dp = montly_bong[::]
+    # 초기 XOR 값 설정
+    for i in range(n):
+        price_last = dp[i]
+        price_next = 0
+        for j in range(i + 1):
+            if price_next < montly_bong[i] ^ montly_bong[j]:
+                price_next = montly_bong[i] ^ montly_bong[j]
+        dp[i] = price_next
+    # 3개에서 n개 선택
+    for _ in range(3, m + 1):
         for i in range(n):
-            price_list_next = []
-            price_list_now = dp[i][::]
-            price_next = -1
+            price_last = dp[i]
+            price_next = 0
             for j in range(i + 1):
-                price_list_now.append(montly_bong[j])
-                xor_value = multiple_XOR(price_list_now)
-                if xor_value >= price_next:
-                    price_next = xor_value
-                    price_list_next = price_list_now[::]
-                price_list_now.pop()
-            dp[i] = price_list_next[::]
-    print(max([multiple_XOR(dp[i]) for i in range(n)]))
+                price_tmp = montly_bong[i] ^ montly_bong[j]
+                if price_next < price_last | price_tmp:
+                    price_next = price_last | price_tmp
+            dp[i] = price_next
+    print(max(dp))
