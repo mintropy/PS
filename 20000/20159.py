@@ -10,22 +10,32 @@ input = sys.stdin.readline
 n = int(input())
 cards = list(map(int, input().split()))
 
-prefix_sum = [cards[-2]]
+prefix_sum_first = [cards[-2]]
+prefix_sum_second = [cards[-1]]
 
-for i in range(n - 4, -1, -2):
-    prefix_sum.append(prefix_sum[-1] + cards[i])
+for i in range(n - 3, -1, -1):
+    if i % 2:
+        prefix_sum_second.append(prefix_sum_second[-1] + cards[i])
+    else:
+        prefix_sum_first.append(prefix_sum_first[-1] + cards[i])
+prefix_sum_first.append(prefix_sum_first[-1])
+prefix_sum_second.append(prefix_sum_second[-1])
 
-prefix_sum = [prefix_sum[-1]] + prefix_sum[::-1] + [0]
-max_sum = prefix_sum[0]
+prefix_sum_first.reverse()
+prefix_sum_second.reverse()
 
-# 홀수번째 차례에 및장 빼기
-for i in range(n // 2):
-    if max_sum < (prefix_sum[0] - prefix_sum[i + 1]) + cards[i * 2 + 1] + prefix_sum[i + 2]:
-        max_sum = (prefix_sum[0] - prefix_sum[i + 1]) + cards[i * 2 + 1] + prefix_sum[i + 2]
-# 짝수번째 차례에 및장 빼기
-for i in range(1, n // 2):
-    if max_sum < (prefix_sum[0] - prefix_sum[i + 1]) + cards[i * 2 - 1] + prefix_sum[i + 2]:
-        max_sum = (prefix_sum[0] - prefix_sum[i + 1]) + cards[i * 2 - 1] + prefix_sum[i + 2]
+max_sum = prefix_sum_first[0]
+
+# i번 째 및장빼기 할 때
+for i in range(n - 1):
+    # 상대방 차례
+    if i % 2:
+        if max_sum < (prefix_sum_first[0] - prefix_sum_first[i // 2 + 2]) + (prefix_sum_second[i // 2 + 1] - prefix_sum_second[-1]):
+            max_sum = (prefix_sum_first[0] - prefix_sum_first[i // 2 + 2]) + (prefix_sum_second[i // 2 + 1] - prefix_sum_second[-1])
+    # 정훈이 차례
+    else:
+        if max_sum < (prefix_sum_first[0] - prefix_sum_first[i // 2 + 1]) + cards[-1] + (prefix_sum_second[i // 2 + 1] - prefix_sum_second[-1]):
+            max_sum = (prefix_sum_first[0] - prefix_sum_first[i // 2 + 1]) + cards[-1] + (prefix_sum_second[i // 2 + 1] - prefix_sum_second[-1])
 
 print(max_sum)
 
