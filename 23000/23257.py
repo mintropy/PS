@@ -11,7 +11,7 @@ MIIS = lambda: map(int, input().split())
 
 
 n, m = MIIS()
-montly_bong = list(map(lambda x: abs(int(x)), input().split()))
+montly_bong = list(abs(x) for x in MIIS())
 
 last_montly_bong = set(montly_bong)
 for _ in range(m - 1):
@@ -19,6 +19,17 @@ for _ in range(m - 1):
 
 print(max(last_montly_bong))
 
+'''
+# short coding
+
+input = __import__('sys').stdin.readline
+MIS = lambda: map(int,input().split())
+n, m = MIS()
+b = list(abs(x) for x in MIS())
+lb = set(b)
+for _ in range(m-1): lb = set(i^j for i in b for j in lb)
+print(max(lb))
+'''
 
 '''
 # AC
