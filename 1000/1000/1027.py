@@ -29,9 +29,10 @@ for i in range(N):
         # 탐색 인덱스 조정
         # 이전 건물과 비교해서 가능한지
         # 기울기 음수 >> 양수 or 음수라면 기울기 증가 or 양수라면 기울기 감소
-        if (height > buildings[last_left] and height < buildings[left_idx]) or\
+        if (height >= buildings[last_left] and height < buildings[left_idx]) or\
+            (height > buildings[last_left] and height <= buildings[left_idx]) or\
             (height > buildings[last_left] and height > buildings[left_idx] and\
-            (height - buildings[last_left]) * (i - left_idx) < (height - buildings[left_idx]) * (i - last_left)) or\
+            (height - buildings[last_left]) * (i - left_idx) > (height - buildings[left_idx]) * (i - last_left)) or\
             (height < buildings[last_left] and height < buildings[left_idx] and\
             (height - buildings[last_left]) * (i - left_idx) > (height - buildings[left_idx]) * (i - last_left)):
                 count += 1
@@ -43,13 +44,14 @@ for i in range(N):
     while right_idx < N:
         # 탐색 인덱스 조정
         # 이전 건물과 비교해서 가능한지
-        if (height > buildings[last_right] and height < buildings[right_idx]) or\
+        if (height > buildings[last_right] and height <= buildings[right_idx]) or\
+            (height >= buildings[last_right] and height < buildings[right_idx]) or\
             (height > buildings[last_right] and height > buildings[right_idx] and\
             (height - buildings[last_right]) * (i - right_idx) < (height - buildings[right_idx]) * (i - last_right)) or\
             (height < buildings[last_right] and height < buildings[right_idx] and\
-            (height - buildings[last_right]) * (i - right_idx) > (height - buildings[right_idx]) * (i - last_right)):
+            (height - buildings[last_right]) * (i - right_idx) < (height - buildings[right_idx]) * (i - last_right)):
                 count += 1
-                last_left = left_idx
+                last_right = right_idx
         right_idx += 1
     if max_count < count:
         max_count = count
