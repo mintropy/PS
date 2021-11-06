@@ -5,12 +5,12 @@
   - 해결하지 못한 코드 파일은 (문제번호) solving으로 commit되어 있습니다
 - [백준 프로필](https://www.acmicpc.net/user/jun2korea)
 - [solved.ac 프로필](https://solved.ac/profile/jun2korea)
+- [민트로피의 민트초코 - tistory blog](https://mintropy.tistory.com/)
 ------------
 ## In progress
 - 1006 초라기의 늪
 - 1019 책 페이지 : 구현을 조금 더 간단하게 ? 하는 방법이 있을까
 - 1027 고층 건물 : 간단하게 비교하는 방법 생각중
-- 1107 리모콘 : 함수 생성중
 - 1111 IQ Test
 - 1922 네트워크 연결 : 일부 TC 틀림
     반례찾아보기
@@ -30,8 +30,6 @@
     2. 코드별 시간차이 많이 난다. 최적화 공부하기
 - 1786 찾기
     1. KMP 공부하기
-- 2239 스도쿠
-    1. sudoku solving algorithm 공부하기
 - 7662 이중 우선순위 큐
     1. 이중 우선순위큐 만들어보기
     2. bisect 활용 풀이 고민해보기
