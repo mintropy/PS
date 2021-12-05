@@ -4,9 +4,49 @@ Link : https://www.acmicpc.net/problem/1107
 '''
 
 import sys
-
 input = sys.stdin.readline
 
+
+def check_possible(num: int, possible_nums: list) -> bool:
+    if num == 0:
+        if 0 in possible_nums:
+            return True
+        else:
+            return False
+    while num:
+        num, m = divmod(num, 10)
+        if m not in possible_nums:
+            return False
+    return True
+
+
+target_channel_num = int(input())
+broken_num_count = int(input())
+broken_nums = set(map(int, input().split()))
+possible_nums = set(range(10)) - broken_nums
+
+min_button = abs(100 - target_channel_num)
+for st_num in range(target_channel_num, -1, -1):
+    btn = target_channel_num - st_num
+    if btn > min_button:
+        break
+    if not check_possible(st_num, possible_nums):
+        continue
+    if btn + len(str(st_num)) < min_button:
+        min_button = btn + len(str(st_num))
+for st_num in range(target_channel_num, 1_000_001):
+    btn = st_num - target_channel_num
+    if btn > min_button:
+        break
+    if not check_possible(st_num, possible_nums):
+        continue
+    if btn + len(str(st_num)) < min_button:
+        min_button = btn + len(str(st_num))
+
+print(min_button)
+
+
+'''
 def plus_to_channel(m, alive):
     global channel
     count = 0
@@ -59,3 +99,17 @@ if m == 10:
 else:
     # 숫자버튼으로 이동 후, +, - 버튼으로 이동하는 회수
     count_num_plus = plus_to_channel(m, broken)
+'''
+
+'''
+Counter Example
+0
+0
+
+ans : 1
+
+2
+9
+0 1 2 3 4 5 6 7 8
+
+'''
