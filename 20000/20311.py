@@ -9,21 +9,23 @@ MIIS = lambda: map(int, input().split())
 
 
 N, K = MIIS()
-colors = sorted(MIIS(), reverse=True)
+colors = list(MIIS())
 
 
-if colors[0] > (N + 1) // 2:
+if max(colors) > (N + 1) // 2:
     print(-1)
 else:
     seq = [0] * N
     colors_list = []
     for i in range(K):
-        colors_list += [i + 1] * colors[i]
-    colors_list.reverse()
+        colors_list += [(colors[i], i + 1) for _ in range(colors[i])]
+    colors_list.sort(key=lambda x:x[0])
     
     for i in range(0, N, 2):
-        seq[i] = colors_list.pop()
+        _, idx = colors_list.pop()
+        seq[i] = idx
     for i in range(1, N, 2):
-        seq[i] = colors_list.pop()
+        _, idx = colors_list.pop()
+        seq[i] = idx
     
     print(*seq)
