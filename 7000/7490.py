@@ -14,7 +14,11 @@ def dfs(comb_now : str, comb_list: list, idx: int, target: int):
             tmp += comb_now + '\n'
         return
     
-    dfs(comb_now + f' {idx}', comb_list[:-1] + [int(str(comb_list[-1]) + str(idx))], idx + 1, target)
+    # dfs(comb_now + f' {idx}', comb_list[:-1] + [int(str(comb_list[-1]) + str(idx))], idx + 1, target)
+    if comb_list[-1] < 0:
+        dfs(comb_now + f' {idx}', comb_list[:-1] + [comb_list[-1] * 10 - idx], idx + 1, target)
+    else:
+        dfs(comb_now + f' {idx}', comb_list[:-1] + [comb_list[-1] * 10 + idx], idx + 1, target)
     dfs(comb_now + f'+{idx}', comb_list + [idx], idx + 1, target)
     dfs(comb_now + f'-{idx}', comb_list + [-idx], idx + 1, target)
 
