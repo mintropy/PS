@@ -10,12 +10,35 @@ MIIS = lambda: map(int, input().split())
 
 
 def simulate(x: int, y: int, z: int, grid: list) -> int:
-    global N, M, D
+    global N, M
     count = 0
     new_grid = [line[::] for line in grid]
-    
-    
+    for i in range(N, 0, -1):
+        enemy = set()
+        for w in (x, y, z):
+            pos = search(i, w, new_grid)
+            if pos:
+                enemy.add(pos)
+        for a, b in enemy:
+            count += 1
+            new_grid[a][b] = 0
     return count
+
+
+def search(i: int, j: int, new_grid):
+    global N, M, D
+    for d in range(1, D + 1):
+        for k in range(d):
+            x, y = i - 1 - k, j + 1 - d + k
+            if 0 <= x < N and 0 <= y < M:
+                if new_grid[x][y] == 1:
+                    return(x, y)
+        for k in range(d - 1):
+            x, y = i + k + 1, j - d + 1 + k
+            if 0 <= x < N and 0 <= y < M:
+                if new_grid[x][y] == 1:
+                    return(x, y)
+    return ()
 
 
 N, M, D = MIIS()
