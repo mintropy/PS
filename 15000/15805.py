@@ -8,7 +8,16 @@ input = sys.stdin.readline
 
 
 K = int(input())
-city_count = max(K) + 1
+city = list(map(int, input().split()))
+city_count = max(city) + 1
 
+parents = list(range(city_count))
+parents[city[0]] = -1
 
-childs = [[] for _ in range(city_count)]
+for i in range(1, K):
+    before, now = city[i - 1], city[i]
+    if parents[now] == now:
+        parents[now] = before
+
+print(city_count)
+print(*parents)
