@@ -5,10 +5,9 @@ Link : https://www.acmicpc.net/problem/1101
 
 import sys, collections
 input = sys.stdin.readline
+MIIS = lambda: map(int, input().split())
 
-n, m = map(int, input().split())
 
-stickers = collections.defaultdict(list)
-for _ in range(n):
-    s, b = map(int, input().split())
-    stickers[s].append(b)
+N, M = MIIS()
+
+box = [list(MIIS()) for _ in range(N)]
