@@ -10,25 +10,24 @@ input = sys.stdin.readline
 MIIS = lambda: map(int, input().split())
 
 
-def make_search_garden(garden, blues, reds) -> list[list]:
+def make_search_garden(garden, spreads, greens):
     global N, M
     search_garden = [garden_line[::] for garden_line in garden]
-    for x, y in blues:
+    for x, y in greens:
         search_garden[x][y] = 3
-    for x, y in reds:
-        search_garden[x][y] = 4
+    for x, y in spreads:
+        if search_garden[x][y] == 2:
+            search_garden[x][y] = 4
     return search_garden
 
 
-def search(search_garden: list, blues, reds) -> int:
+def search(search_garden, spreads):
     global N, M
     global dx, dy
     flowers = set()
     queue = deque([])
-    for x, y in blues:
-        queue.append((x, y, 3))
-    for x, y in reds:
-        queue.append((x, y, 4))
+    for x, y in spreads:
+        queue.append((x, y, search_garden[x][y]))
     while True:
         next_queue = deque([])
         while queue:
@@ -56,19 +55,18 @@ def search(search_garden: list, blues, reds) -> int:
 
 N, M, G, R = MIIS()
 garden = [list(MIIS()) for _ in range(N)]
-possible = set()
+possible = list()
 for i in range(N):
     for j in range(M):
         if garden[i][j] == 2:
-            possible.add((i, j))
+            possible.append((i, j))
 
 dx, dy = (-1, 0, 1, 0), (0, 1, 0, -1)
 max_flower = 0
-for blues in list(combinations(possible, G)):
-    possible_red = possible - set(blues)
-    for reds in list(combinations(possible_red, R)):
-        search_garden = make_search_garden(garden, blues, reds)
-        flower = search(search_garden, blues, reds)
+for spreads in list(combinations(possible, G + R)):
+    for greens in list(combinations(spreads, G)):
+        search_garden = make_search_garden(garden, spreads, greens)
+        flower = search(search_garden, spreads)
         if max_flower < flower:
             max_flower = flower
 
