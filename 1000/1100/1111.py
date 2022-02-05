@@ -11,16 +11,23 @@ seq = list(map(int, input().split()))
 
 
 if N <= 2:
-    print('A')
-elif N >= 3:
-    a = (seq[1] - seq[2]) // (seq[0] - seq[1])
-    b = seq[2] - a * seq[0]
-    possible = True
-    for i in range(1, N - 1):
-        if seq[i] * a + b != seq[i + 1]:
-            possible = False
-            break
-    if possible:
-        print(seq[-1] * a + b)
+    if seq == [seq[0]] * 2:
+        print(seq[0])
     else:
-        print('B')
+        print('A')
+else:
+    if seq[0] == seq[1]:
+        if seq == [seq[0]] * N:
+            print(seq[0])
+        else:
+            print('B')
+    else:
+        a = (seq[1] - seq[2]) // (seq[0] - seq[1])
+        b = seq[1] - a * seq[0]
+        possible = True
+        for i in range(N - 1):
+            x, y = seq[i], seq[i + 1]
+            if x * a + b != y:
+                possible = False
+                break
+        print(seq[-1] * a + b if possible else 'B')
