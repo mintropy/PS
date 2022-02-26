@@ -3,51 +3,44 @@ Title : 가르침
 Link : https://www.acmicpc.net/problem/1062
 """
 
+from itertools import combinations
 import sys
 input = sys.stdin.readline
 
 
-def dfs(count, words, check, alphabets, limit):
-    max_count = count
-    for i in range(len(words)):
-        if check[i]:
-            continue
-        alp_count = 0
-        for s in words[i]:
-            if not alphabets[s]:
-                alp_count += 1
-        if alp_count <= limit:
-            for s in words[i]:
-                alphabets[s] = True
-            check[i] = True
-            tmp = dfs(count + 1, words, check, alphabets, limit - alp_count)
-            if max_count < tmp:
-                max_count = tmp
-            for s in words[i]:
-                alphabets[s] = False
-            check[i] = False
-    return max_count
-
-
 def solution():
     N, K = map(int, input().split())
-    alphabets = [False] * 26
-    alphabets[ord('a') - 97] = alphabets[ord('c') - 97] = alphabets[ord('n') - 97]\
-        = alphabets[ord('i') - 97] = alphabets[ord('t') - 97] = True
+    alphabets = {'a', 'c', 'i', 'n', 't'}
 
     words = []
+    additional_alphabests = set()
     for _ in range(N):
         word = input().strip()[4:-4]
-        words.append(set(ord(s) - 97 for s in word))
+        word = set(s for s in word) - alphabets
+        words.append(word)
+        additional_alphabests |= word
 
-    print(dfs(0, words, [False] * N, alphabets, K - 5))
+    limit = K - 5
+    if limit < 0:
+        print(0)
+        return
+    if len(list(additional_alphabests)) <= limit:
+        ans = N
+    else:
+        ans = 0
+        for comb in list(combinations(additional_alphabests, limit)):
+            count = 0
+            comb = set(comb)
+            for word in words:
+                for s in word:
+                    if s not in comb:
+                        break
+                else:
+                    count += 1
+            if ans < count:
+                ans = count
+    print(ans)
+    return
 
 
 solution()
-
-
-'''
-Counter Example
-
-
-'''
