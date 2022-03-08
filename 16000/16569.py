@@ -3,6 +3,7 @@ Title : 화산 쇄설류
 Link : https://www.acmicpc.net/problem/16569
 """
 
+from collections import deque
 import sys
 input = sys.stdin.readline
 MIIS = lambda: map(int, input().split())
@@ -12,60 +13,55 @@ if __name__ == '__main__':
     M, N, V = MIIS()
     X, Y = MIIS()
     heights = [[0 for _ in range(N + 1)]] + [[0] + list(MIIS()) for _ in range(M)]
-    dusts = sorted([list(MIIS()) for _ in range(V)], key=lambda x: x[2])
-    volcano = {(x, y) for x, y, _ in dusts}
-    dx, dy = (-1, 0, 1, 0), (0, 1, 0, -1)
+    volcanos = sorted([tuple(MIIS()) for _ in range(V)], key=lambda x: x[2])
 
-    dusts_now = []
-    possible_pos = [(X, Y)]
-    max_heights = heights[X][Y]
-    ans_time = 0
-    idx = 0
-    time_now = 0
-    while idx < V:
-        x, y, t = dusts[idx]
-        if t == 0:
-            heights[x][y] = -1
-            dusts_now.append((x, y))
-        else:
-            break
-    heights[X][Y] = -1
-    
-    while possible_pos:
-        if idx == V:
-            next_time = 10000
-        else:
-            next_time = dusts[idx][2] - time_now
-        for _ in range(next_time):
-            time_now += 1
-            next_pos = []
-            dust_next = []
-            for x, y in dusts_now:
-                for d in range(4):
-                    nx, ny = x + dx[d], y + dy[d]
-                    if 1 <= nx <= M and 1 <= ny <= N and heights[nx][ny] >= 0:
-                        heights[nx][ny] = -1
-                        dust_next.append((nx, ny))
-            for x, y in possible_pos:
-                for d in range(4):
-                    nx, ny = x + dx[d], y + dy[d]
-                    if (nx, ny) in volcano:
-                        continue
-                    if 1 <= nx <= M and 1 <= ny <= N and heights[nx][ny] >= 0:
-                        if max_heights < heights[nx][ny]:
-                            max_heights = heights[nx][ny]
-                            ans_time = time_now
-                        heights[nx][ny] = -1
-                        next_pos.append((nx, ny))
-            dusts_now = dust_next[::]
-            possible_pos = next_pos[::]
+    dx, dy = (-1, 0, 1, 0), (0, 1, 0, -1)
+    dusts = [[100_000] * (N + 1) for _ in range(M + 1)]
+    idx = 1
+    time = volcanos[0][2]
+    stack = [(volcanos[0][:2])]
+    while stack:
         while idx < V:
-            if dusts[idx][2] == time_now:
-                x, y, _ = dusts[idx]
-                dusts_now.append((x, y))
+            if volcanos[idx][2] == time:
+                stack.append(volcanos[idx][:2])
                 idx += 1
             else:
                 break
+        next_stack = []
+        for x, y in stack:
+            if time >= dusts[x][y] :
+                continue
+            dusts[x][y] = time
+            for d in range(4):
+                nx, ny = x + dx[d], y + dy[d]
+                if 1 <= nx <= M and 1 <= ny <= N:
+                    if time + 1 < dusts[nx][ny]:
+                        next_stack.append((nx, ny))
+        stack = next_stack[::]
+        time += 1
+    for x, y, _ in volcanos:
+        heights[x][y] = -1
+
+    max_heights = heights[X][Y]
+    ans_time = 0
+    time = 0
+    pos = [(X, Y)]
+    while pos:
+        next_pos = []
+        for x , y in pos:
+            if heights[x][y] == -1 or time >= dusts[x][y]:
+                continue
+            if max_heights < heights[x][y]:
+                max_heights = heights[x][y]
+                ans_time = time
+            heights[x][y] = -1
+            for d in range(4):
+                nx, ny = x + dx[d], y + dy[d]
+                if 1 <= nx <= M and 1 <= ny <= N:
+                    if heights[nx][ny] != -1:
+                        next_pos.append((nx, ny))
+        pos = next_pos[::]
+        time += 1
     print(max_heights, ans_time)
 
 '''
