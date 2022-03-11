@@ -59,8 +59,8 @@ if __name__ == '__main__':
         sharks[(r, c)] = (s, d, z)
 
     ans = 0
-    for idx in range(1, R + 1):
-        for j in range(1, C + 1):
+    for idx in range(1, C + 1):
+        for j in range(1, R + 1):
             if (j, idx) in sharks:
                 ans += sharks[(j, idx)][2]
                 sharks.pop((j, idx))
