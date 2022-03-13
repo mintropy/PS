@@ -12,4 +12,8 @@ if __name__ == '__main__':
     nums = sorted(map(int, input().split()))
     N = int(input())
     
-    
+    ans = [nums] + [0] * (N - L)
+    for i in range(L - 1):
+        diff = ans[i + 1] - ans[i]
+        if diff == 1:
+            pass
