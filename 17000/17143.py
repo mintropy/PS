@@ -9,46 +9,42 @@ MIIS = lambda: map(int, input().split())
 
 
 def move_shark(r, c, s, d):
-    global R, C
+    global R, C, directions
     _s, _d = s, d
-    if d == 0 or d == 1:
-        _s = s % (R * 2)
-    else:
-        _s = s % (C * 2)
     while _s:
         if _d == 1:
-            if _s > r:
-                _s -= (r - 1)
-                r = 1
-                _d = 2
+            if _s >= r:
+                _s -= r
+                r = 0
+                _d = directions[_d]
             else:
                 r -= _s
-                _s = 0
+                break
         elif _d == 2:
-            if _s > R - r:
-                _s -= R - r
-                r = R
-                _d = 1
+            if _s >= R - r - 1:
+                _s -= R - r - 1
+                r = R - 1
+                _d = directions[_d]
             else:
                 r += _s
-                _s = 0
+                break
         elif _d == 3:
-            if _s > C - c:
-                _s -= C - c
-                c = C
-                _d = 4
+            if _s >= C - c - 1:
+                _s -= C - c - 1
+                c = C - 1
+                _d = directions[_d]
             else:
                 c += _s
-                _s = 0
+                break
         else:
-            if _s > c:
-                _s -= (c - 1)
-                c = 1
-                _d = 3
+            if _s >= c:
+                _s -= c
+                c = 0
+                _d = directions[_d]
             else:
                 c -= _s
-                _s = 0
-    return r, c, d
+                break
+    return r, c, _d
 
 
 if __name__ == '__main__':
@@ -56,11 +52,16 @@ if __name__ == '__main__':
     sharks = {}
     for _ in range(M):
         r, c, s, d, z = MIIS()
-        sharks[(r, c)] = (s, d, z)
+        if d <= 2:
+            s %= (R - 1) * 2
+        else:
+            s %= (C - 1) * 2
+        sharks[(r - 1, c - 1)] = (s, d, z)
 
+    directions = {1: 2, 2: 1, 3: 4, 4: 3}
     ans = 0
-    for idx in range(1, C + 1):
-        for j in range(1, R + 1):
+    for idx in range(C):
+        for j in range(R):
             if (j, idx) in sharks:
                 ans += sharks[(j, idx)][2]
                 sharks.pop((j, idx))
@@ -75,3 +76,9 @@ if __name__ == '__main__':
                 next_sharks[(r, c)] = (s, _d, z)
         sharks = next_sharks
     print(ans)
+
+'''
+100 3 2
+2 3 0 1 2
+4 3 1 1 3
+'''
