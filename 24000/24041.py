@@ -26,15 +26,15 @@ if __name__ == "__main__":
             not_important_ingredients.append((S, L))
     if K >= len(not_important_ingredients):
         K = len(not_important_ingredients)
+    elif K == 0:
+        important_ingredients += not_important_ingredients[::]
+        not_important_ingredients = []
     left, right = 0, 10 ** 10
     ans = 0
     while left <= right:
         mid = (left + right) // 2
-        if K:
-            count = sum([calc(mid, S, L) for S, L in important_ingredients])\
-                + sum(sorted([calc(mid, S, L) for S, L in not_important_ingredients])[:-K])
-        else:
-            count = sum([calc(mid, S, L) for S, L in important_ingredients + not_important_ingredients])
+        count = sum([calc(mid, S, L) for S, L in important_ingredients])\
+            + sum(sorted([calc(mid, S, L) for S, L in not_important_ingredients])[:-K])
         if count <= G:
             ans = mid
             left = mid + 1
