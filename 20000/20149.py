@@ -8,59 +8,59 @@ input = sys.stdin.readline
 MIIS = lambda: map(int, input().split())
 
 
+def ccw(a1, b1, a2, b2, a3, b3):
+    return (a2 - a1) * (b3 - b1) - (b2 - b1) * (a3 - a1)
+
+
+def is_between(l, r, t):
+    if l <= t <= r or r <= t <= l:
+        return True
+    return False
+
+
+def check():
+    global x1, y1, x2, y2, x3, y3, x4, y4
+    if not ccw(x1, y1, x2, y2, x3, y3) * ccw(x1, y1, x2, y2, x4, y4):
+        if not ccw(x3, y3, x4, y4, x1, y1) * ccw(x3, y3, x4, y4, x2, y2):
+            if (max(x1, x2) >= min(x3, x4) and max(y1, y2) >= min(y3, y4)) or (
+                min(x1, x2) >= max(x3, x4) and min(y1, y2) >= max(y3, y4)
+            ):
+                return True
+            else:
+                return False
+    elif ccw(x1, y1, x2, y2, x3, y3) * ccw(x1, y1, x2, y2, x4, y4) < 0:
+        if ccw(x3, y3, x4, y4, x1, y1) * ccw(x3, y3, x4, y4, x2, y2) <= 0:
+            return True
+    return False
+
+
 if __name__ == "__main__":
     x1, y1, x2, y2 = MIIS()
     x3, y3, x4, y4 = MIIS()
-    
-    if (
-        (min(x3, x4) > x1 and min(x3, x4) > x2)
-        or (max(x3, x4) < x1 and max(x3, x4) < x2)
-        or (min(y3, y4) > y1 and min(y3, y4) > y2)
-        or (max(y3, y4) < y1 and max(y3, y4) < y2)
-    ):
-        print(0)
+    if check():
+        print(1)
+        try:
+            print(
+                ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4))
+                / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)),
+                ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4))
+                / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)),
+            )
+        except ZeroDivisionError:
+            if x1 > x2 or y1 > y2:
+                x1, y1, x2, y2 = x2, y2, x1, y1
+            if x3 > x4 or y3 > y4:
+                x3, y3, x4, y4 = x4, y4, x3, y3
+            if x2 == x3 and y2 == y3:
+                print(x2, y2)
+            else:
+                print(x1, y1)
     else:
-        ccw1 = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1)
-        ccw2 = (x2 - x1) * (y4 - y1) - (y2 - y1) * (x4 - x1)
-        if ccw1 == 0 or ccw2 == 0:
-            if (
-                (x1 <= x3 <= x2 and y1 <= y3 <= y2)
-                or (x1 <= x4 <= x2 and y1 <= y4 <= y2)
-                or (x3 <= x1 <= x4 and y3 <= y1 <= y4)
-                or (x3 <= x2 <= x4 and y3 <= y2 <= y4)
-            ):
-                print(1)
-            elif x1 == x3 and y1 == y3:
-                print(1)
-                print(x1, y1)
-            elif x1 == y4 and y1 == y4:
-                print(1)
-                print(x1, y1)
-            elif x2 == x3 and y2 == y3:
-                print(1)
-                print(x2, y2)
-            elif x2 == x4 and y2 == y4:
-                print(1)
-                print(x2, y2)
-            else:
-                print(0)
-        elif ccw1 * ccw2 >= 0:
-            print(0)
-        else:
-            print(1)
-            if x1 == x2:
-                y = (y3 - y4) / (x3 - x4) * (x1 - x3) + y3
-                print(x1, y)
-            elif x3 == x4:
-                y = (y1 - y2) / (x1 - x2) * (x3 - x1) + y1
-                print(x1, y)
-            else:
-                m1, m2 = (y1 - y2) / (x1 - x2), (y3 - y4) / (x3 - x4)
-                x = (m1 * x1 - m2 * x3 - y1 + y3) / (m1 - m2)
-                y = (y3 - y4) / (x3 - x4) * (x - x3) + y3
-                print(x, y)
+        print(0)
 
-'''
+"""
+https://velog.io/@jini_eun/%EB%B0%B1%EC%A4%80-20149-%EC%84%A0%EB%B6%84-%EA%B5%90%EC%B0%A8-3-Java-Python
+
 1 6 5 5
 5 5 1 1
 # 1
@@ -73,4 +73,5 @@ if __name__ == "__main__":
 0 0 1 0
 0 0 2 0
 # 1
-'''
+# 0 0
+"""
