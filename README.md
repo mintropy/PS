@@ -1,19 +1,39 @@
 # Baekjoon Online Judge
 
-#### Python [BOJ](https://www.acmicpc.net/) solution
+## Problem Solving Solutions
+
+#### Problems
 - 아직 해결하지 못한 문제에 대한 코드가 포함되어 있습니다
-  - 해결하지 못한 코드 파일은 (문제번호) solving으로 commit되어 있습니다
+- [BAEKJOON](https://www.acmicpc.net/)
+- [AtCoder](https://atcoder.jp/)
+- [Codeforces](https://codeforces.com/)
+
+#### Descriptions
 - [백준 프로필](https://www.acmicpc.net/user/jun2korea)
 - [solved.ac 프로필](https://solved.ac/profile/jun2korea)
+- [AtCoder 프로필](https://atcoder.jp/users/mintropy)
+- [Codeforces 프로필](https://codeforces.com/profile/mintropy)
 - [민트로피의 민트초코 - tistory blog](https://mintropy.tistory.com/)
-------------
+
+#### Commit Message
+- BAEKJOON
+    - BOJ `문제번호` solved / solving(`이유`)
+    - 이유 : WA, TLE, MLE, 비어 있는 경우 미제출
+- AtCoder, Codeforces
+    - 현재는 contest문제만 추가
+    - AtCoder / Codeforces `contest`
+    - AtCoder : ABC / ARC + `contest #`
+    - Coderforces : Div.`#` + Round
+    - 추가 description으로 해결 문제 등
+
+---
+
+# 주요 문제 목록
+
 ## In progress
 - 1006 초라기의 늪
 - 1019 책 페이지 : 구현을 조금 더 간단하게 ? 하는 방법이 있을까
-- 1027 고층 건물 : 간단하게 비교하는 방법 생각중
-- 1111 IQ Test
 - 1922 네트워크 연결 : 일부 TC 틀림
-    반례찾아보기
 - 3055 탈출 : 함수 구현 생각해보기
 - 5525 IOIOI : 서브태스크 실패
 - 14464 소가 길을 건너간 이유 4 : 깔끔한 코드가 생각이 나지 않는다
