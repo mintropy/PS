@@ -9,6 +9,10 @@
 - [Codeforces](https://codeforces.com/)
 - [SWEA](https://swexpertacademy.com/main/main.do)
 
+#### Languages
+- `Python` : 거의 대부분 문제를 풀이하는 언어
+- `Go` : 일부 풀이가 있는 학습중 언어
+
 #### Descriptions
 - [백준 프로필](https://www.acmicpc.net/user/jun2korea)
 - [solved.ac 프로필](https://solved.ac/profile/jun2korea)
