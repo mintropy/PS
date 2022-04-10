@@ -23,24 +23,18 @@ def union_parent(parents, x, y):
 
 if __name__ == "__main__":
     N, M = MIIS()
-    exits = sorted([tuple(MIIS()) for _ in range(M)], key=lambda x:x[2])
+    routes = [tuple(MIIS()) for _ in range(M)]
+    exits = tuple(MIIS())
+    routes += [(0, idx + 1, cost) for idx, cost in enumerate(exits)]
+    routes.sort(key=lambda x:x[2])
+    
     parents = list(range(N + 1))
     dist = 0
-    for a, b, c in exits:
+    for a, b, c in routes:
         a, b = find_parent(parents, a), find_parent(parents, b)
         if a == b:
             continue
         dist += c
         parents = union_parent(parents, a, b)
-    outs = [0] + list(MIIS())
-    min_outs = {}
-    for i in range(N, 0, -1):
-        if not parents[i]:
-            continue
-        min_out = outs[i]
-        while i != parents[i]:
-            i = parents[i]
-            if min_out > outs[i]:
-                min_out = outs[i]
-        min_outs[i] = min(min_outs.get(i, 1000), min_out)
-    print(dist + sum(min_outs.values()))
+    
+    print(dist)
