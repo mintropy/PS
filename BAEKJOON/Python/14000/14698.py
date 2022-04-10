@@ -18,4 +18,4 @@ if __name__ == "__main__":
             a, b = heapq.heappop(heap), heapq.heappop(heap)
             ans *= a * b
             heapq.heappush(heap, a * b)
-        print(ans % 1_000_007)
+        print(ans % 1_000_000_007)
