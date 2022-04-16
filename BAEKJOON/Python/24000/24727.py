@@ -1,64 +1,75 @@
 """
 Title : 인지융~
-Link : 
+Link : https://www.acmicpc.net/problem/24727
 """
 
+from collections import deque
 import sys
 input = sys.stdin.readline
-
-
-def count_walls(x):
-    count = 2
-    now = 1
-    while True:
-        if x <= now:
-            return count
-        now += count
-        count += 1
 
 
 if __name__ == "__main__":
     N = int(input())
     C, E = map(int, input().split())
     
-    total = C + E
-    min_count = min(C, E)
-    walls = count_walls(min_count)
-    if total + walls > N * N:
+    my_map = [[0] * N for _ in range(N)]
+    dx, dy = (-1, 0, 1, 0), (0, 1, 0, -1)
+    queue = deque([(0, 0)])
+    while queue:
+        if not C:
+            break
+        x, y = queue.popleft()
+        if my_map[x][y]:
+            continue
+        my_map[x][y] = 1
+        C -= 1
+        for d in range(4):
+            nx, ny = x + dx[d], y + dy[d]
+            if 0 <= nx < N and 0 <= ny < N:
+                queue.append((nx, ny))
+    queue = deque([(N - 1, N - 1)])
+    while queue:
+        if not E:
+            break
+        x, y = queue.popleft()
+        if (
+            my_map[x][y]
+            or (x > 0 and my_map[x - 1][y] == 1)
+            or (y > 0 and my_map[x][y - 1] == 1)
+        ):
+            continue
+        my_map[x][y] = 2
+        E -= 1
+        for d in range(4):
+            nx, ny = x + dx[d], y + dy[d]
+            if 0 <= nx < N and 0 <= ny < N:
+                queue.append((nx, ny))
+    
+    if E:
         print(-1)
     else:
-        my_map = [[0] * N for _ in range(N)]
-        for i in range(N):
-            if not C:
-                break
-            for j in range(i + 1):
-                if not C:
-                    break
-                my_map[i - j][j] = 1
-                C -= 1
-        for i in range(1, N):
-            if not C:
-                break
-            for j in range(N - i - 1):
-                if not C:
-                    break
-                my_map[N - 1 - j][j + 1] = 1
-                C -= 1
-        for i in range(N):
-            if not E:
-                break
-            for j in range(i + 1):
-                if not E:
-                    break
-                my_map[N - 1 - i + j][N - 1 - j] = 2
-                E -= 1
-        for i in range(1, N):
-            if not E:
-                break
-            for j in range(N - i - 1):
-                if not E:
-                    break
-                my_map[j][N - 2 - j]
-                E -= 1
+        print(1)
         for line in my_map:
             print(*line)
+
+'''
+https://prod.velog.io/@cldhfleks2/24727
+
+5
+17 4
+
+5
+18 4
+
+2 
+1 1
+
+3
+3 3
+
+4
+6 6
+
+4
+7 5
+'''
