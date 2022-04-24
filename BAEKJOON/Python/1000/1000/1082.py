@@ -9,19 +9,15 @@ input = sys.stdin.readline
 
 if __name__ == "__main__":
     N = int(input())
-    numbers = list(map(int, input().split()))
+    prices = list(map(int, input().split()))
     M = int(input())
-    dp = [[[0, 0] for _ in range(N)] for _ in range(M // min(numbers))]
-    ans = 0
-    for i in range(M // min(numbers)):
-        for j in range(N):
-            price_now = numbers[j]
-            max_num, price = 0, 0
-            for num, p in dp[i - 1]:
-                if price_now + p <= M:
-                    max_num = num * 10 + j
-                    price = price_now + p
-            dp[i][j] = [max_num, price]
-            if ans < max_num:
-                ans = max_num
-    print(ans)
+    
+    dp = [0] * 51
+    for idx, price in enumerate(prices):
+        dp[price] = idx
+    for i in range(min(prices) * 2, M + 1):
+        for j, price in enumerate(prices):
+            if i - price >= 0 and dp[i - price]:
+                dp[i] = max(dp[i], dp[i - price] * 10 + j)
+            pass
+    print(max(dp[:M + 1]))
