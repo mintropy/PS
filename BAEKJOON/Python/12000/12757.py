@@ -3,55 +3,62 @@ Title : 전설의 JBNU
 Link : https://www.acmicpc.net/problem/12757
 """
 
+import bisect
 import sys
 input = sys.stdin.readline
 MIIS = lambda: map(int, input().split())
 
 
-def bin_search(all_keys, key):
-    global K, data
-    min_dist = K + 1
-    ans = -1
-    left, right = 0, len(all_keys) - 1
-    while left <= right:
-        mid = (left + right) // 2
-        mid_key = all_keys[mid]
-        if abs(key - mid_key) == min_dist:
-            ans = '?'
-        elif abs(key - mid_key) < min_dist:
-            ans = mid_key
-            min_dist = abs(key - mid_key)
-        if mid_key > key:
-            right = mid - 1
+def bin_search(keys, key):
+    global K
+    idx = bisect.bisect(keys, key)
+    if idx == 0:
+        if abs(keys[0] - key) <= K:
+            return keys[0]
+    elif idx == len(keys):
+        if abs(keys[idx - 1] - key) <= K:
+            return keys[idx - 1]
+    else:
+        if keys[idx] - key == key - keys[idx - 1]:
+            return -2
+        elif keys[idx] - key > key - keys[idx - 1]:
+            if key - keys[idx - 1] <= K:
+                return keys[idx - 1]
         else:
-            left = mid + 1
-    return ans
+            if keys[idx] - key <= K:
+                return keys[idx]
+    return -1
 
 
 if __name__ == "__main__":
     N, M, K = MIIS()
     data = {}
+    keys = []
     for _ in range(N):
         k, v = MIIS()
         data[k] = v
+        bisect.insort(keys, k)
     for _ in range(M):
-        cmd = list(MIIS())
-        if cmd[0] == 1:
-            _, k, v = cmd
+        cmd, *kv = list(MIIS())
+        if cmd == 1:
+            k, v = kv
             data[k] = v
-        elif cmd[0] == 2:
-            _, k, v = cmd
-            key = bin_search(sorted(data.keys()), k)
-            if key == "?" or key == "-1":
+            bisect.insort(keys, k)
+        elif cmd == 2:
+            k, v = kv
+            key = bin_search(keys, k)
+            if key <= -1:
                 continue
             data[key] = v
         else:
-            k = cmd[1]
+            k = kv[0]
             if k in data:
-                print(k)
+                print(data[k])
             else:
-                ans = bin_search(sorted(data.keys()), k)
-                if ans == "?" or ans == -1:
+                ans = bin_search(keys, k)
+                if ans == -1:
                     print(ans)
+                elif ans == -2:
+                    print("?")
                 else:
                     print(data[ans])
