@@ -3,6 +3,7 @@ Title : 캐슬 디펜스
 Link : https://www.acmicpc.net/problem/17135
 """
 
+from collections import deque
 from itertools import combinations
 import sys
 input = sys.stdin.readline
@@ -25,30 +26,42 @@ def simulate(x: int, y: int, z: int, grid: list) -> int:
     return count
 
 
-def search(i: int, j: int, new_grid):
+def search(i: int, j: int, new_grid: list) -> tuple:
     global N, M, D
     for d in range(1, D + 1):
         for k in range(d):
             x, y = i - 1 - k, j + 1 - d + k
             if 0 <= x < N and 0 <= y < M:
-                if new_grid[x][y] == 1:
+                if new_grid[x][y]:
                     return(x, y)
         for k in range(d - 1):
-            x, y = i + k + 1, j - d + 1 + k
+            x, y = i - d + 1 - k, j + 1 + k
             if 0 <= x < N and 0 <= y < M:
-                if new_grid[x][y] == 1:
+                if new_grid[x][y]:
                     return(x, y)
     return ()
 
 
-N, M, D = MIIS()
-grid = [list(MIIS()) for _ in range(N)]
+if __name__ == "__main__":
+    N, M, D = MIIS()
+    grid = [list(MIIS()) for _ in range(N)]    
+    max_count = 0
+    for x, y, z in list(combinations(range(M), 3)):
+        count = simulate(x, y, z, grid)
+        if max_count < count:
+            max_count = count
+    print(max_count)
 
-max_count = 0
+'''
+2 4 2
+1 1 1 1
+0 1 1 0
+ans : 5
 
-for x, y, z in list(combinations(range(M), 3)):
-    count = simulate(x, y, z, grid)
-    if max_count < count:
-        max_count = count
-
-print(max_count)
+4 5 2
+1 0 0 1 1
+0 1 1 1 0
+1 1 1 0 0
+1 0 1 0 1
+ans : 11
+'''
