@@ -7,6 +7,48 @@ import sys
 input = sys.stdin.readline
 
 
+if __name__ == "__main__":
+    N = int(input())
+    days = [0, 1, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    for i in range(1, 13):
+        days[i + 1] += days[i]
+    flowers = []
+    for _ in range(N):
+        sm, sd, em, ed = map(int, input().split())
+        st, end = days[sm] + sd - 1, days[em] + ed - 1
+        if st >= days[12] or end < days[3]:
+            continue
+        flowers.append((st, end))
+    flowers.sort(key=lambda x: (x[0], -x[1]))
+    st, end = days[3], days[12]
+    tmp = 0
+    count = 0
+    for s, e in flowers:
+        if st >= end:
+            break
+        if st < s:
+            if tmp < s:
+                break
+            st = tmp
+            count += 1
+        if e <= st:
+            continue
+        if tmp < e:
+            tmp = e
+    else:
+        if st < end and end <= tmp:
+            st = tmp
+            count += 1
+    if st < end:
+        print(0)
+    else:
+        print(count)
+
+'''
+import sys
+input = sys.stdin.readline
+
+
 def check(m1, d1, m2, d2):
     # 비교 기준으로 할 날짜 m1, d1
     # 가능한지 확인할 날짜 m2, d2
@@ -87,8 +129,7 @@ else:
             print(flower_count + 1)
         else:
             print(0)
-
-
+'''
 
 '''
 Counter Example
@@ -105,7 +146,6 @@ Counter Example
 11 27 12 1
 ans : 3
 output : 2
-
 
 3
 11 1 12 1
