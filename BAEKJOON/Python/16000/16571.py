@@ -54,10 +54,6 @@ def is_tik_tak_toe(TIK_TAK_TOE) -> int:
 
 if __name__ == "__main__":
     TIK_TAK_TOE = [list(map(int, input().split())) for _ in range(3)]
-    total_count = one_count = two_count = 0
-    for i in range(3):
-        one_count += TIK_TAK_TOE[i].count(1)
-        two_count += TIK_TAK_TOE[i].count(2)
-        total_count += TIK_TAK_TOE[i].count(0)
-    turn = 1 if one_count == two_count else 2
-    print(search(TIK_TAK_TOE, turn, total_count, turn))
+    zero_count = sum([l.count(0) for l in TIK_TAK_TOE])
+    turn = 1 if zero_count % 2 else 2
+    status = {0: "D", 1: "W", 2: "L"}
