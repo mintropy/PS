@@ -9,37 +9,37 @@ input = sys.stdin.readline
 MIIS = lambda: map(int, input().split())
 
 
-def simulate(X: int, line_count: int, times: list) -> int:
+def simulate(line_count: int) -> bool:
+    global X, times
     line_times = [0] * line_count
     for time in times:
         heapq.heappushpop(line_times, line_times[0] + time)
-        if line_times[0] > X:
-            return X + 1
-    return line_times[0]
+    return True if max(line_times) <= X else False
 
 
-def bin_search(N: int, X: int, times: list) -> int:
-    total_time = sum(times)
-    left, right = total_time // N - 1, N
+def bin_search(N: int) -> int:
+    global X
+    left, right = 1, N
     while left <= right:
         mid = (left + right) // 2
-        if mid * X < total_time:
-            left = mid + 1
-        time_spend = simulate(X, mid, times)
-        if time_spend <= X:
+        if simulate(mid):
             right = mid - 1
         else:
             left = mid + 1
     return left
 
 
-N, X = MIIS()
-times = list(MIIS())
-
-print(bin_search(N, X, times))
+if __name__ == "__main__":
+    N, X = MIIS()
+    times = list(MIIS())
+    print(bin_search(N))
 
 '''
-5 14
+6 14
 5 6 7 8 9 10
+> 6
 
+3 3
+3 3 3
+> 3
 '''
