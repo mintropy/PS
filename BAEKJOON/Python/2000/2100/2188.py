@@ -1,3 +1,8 @@
+"""
+Title : 축사 배정
+Link : https://www.acmicpc.net/problem/2188
+"""
+
 import sys
 input = sys.stdin.readline
 MIIS = lambda: map(int, input().split())
