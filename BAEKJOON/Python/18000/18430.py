@@ -9,22 +9,33 @@ input = stdin.readline
 MIIS = lambda: map(int, input().split())
 
 
-def search():
+def search(x: int, y: int):
     global N, M, my_map, visited
-    max_points = 0
-    for i in range(N):
-        for j in range(M):
-            if visited[i][j]:
-                continue
-            for d in range(4):
-                if not check_direction(i, j, d):
-                    continue
-                _point = get_points(i, j, d, True)
-                _next_point = search()
-                if max_points < _point + _next_point:
-                    max_points = _point + _next_point
-                get_points(i, j, d, False)
+    if x == N:
+        return 0
+    _x, _y = get_next_pos(x, y)
+    max_points = search(_x, _y)
+    if visited[x][y]:
+        return max_points
+    for d in range(4):
+        if visited[x][y] or not check_direction(x, y, d):
+            continue
+        _point = get_points(x, y, d, True)
+        _x, _y = get_next_pos(x, y)
+        _next_point = search(_x, _y)
+        if max_points < _point + _next_point:
+            max_points = _point + _next_point
+        get_points(x, y, d, False)
     return max_points
+
+
+def get_next_pos(x: int, y: int) -> tuple:
+    global N, M
+    y += 1
+    if y == M:
+        x += 1
+        y = 0
+    return x, y
 
 
 def check_direction(x: int, y: int, d: int) -> bool:
@@ -60,4 +71,4 @@ if __name__ == "__main__":
         2: ((1, 0), (0, -1)),
         3: ((0, -1), (-1, 0)),
     }
-    print(search())
+    print(search(0, 0))
