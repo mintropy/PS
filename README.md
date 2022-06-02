@@ -1,5 +1,7 @@
 # Baekjoon Online Judge
 
+[![wakatime](https://wakatime.com/badge/user/d2f7e5d9-29c6-4c2e-85b5-4bb5c795a8eb/project/949c1805-26eb-4e04-89eb-f03f768ea033.svg)](https://wakatime.com/badge/user/d2f7e5d9-29c6-4c2e-85b5-4bb5c795a8eb/project/949c1805-26eb-4e04-89eb-f03f768ea033)
+
 ## Problem Solving Solutions
 
 #### Problems
