@@ -19,14 +19,15 @@ def search_dp(dp: list, N: int, poly: str) -> int:
     for i in range(N // 2, 0, -1):
         for left in range(i):
             right = N // 2 - i + 1 + left
-            cmd_left, cmd_right = poly[left * 2 + 1], poly[right * 2 - 1]
-            num_left, num_right = int(poly[left * 2]), int(poly[right * 2])
-            values = [
-                calc(dp[left][right - 1][0], cmd_right, num_right),
-                calc(dp[left][right - 1][1], cmd_right, num_right),
-                calc(num_left, cmd_left, dp[left + 1][right][0]),
-                calc(num_left, cmd_left, dp[left + 1][right][0]),
-            ]
+            values = []
+            for mid in range(left, right):
+                cmd = poly[mid * 2 + 1]
+                values += [
+                    calc(dp[left][mid][0], cmd, dp[mid + 1][right][0]),
+                    calc(dp[left][mid][0], cmd, dp[mid + 1][right][1]),
+                    calc(dp[left][mid][1], cmd, dp[mid + 1][right][0]),
+                    calc(dp[left][mid][1], cmd, dp[mid + 1][right][1]),
+                ]
             dp[left][right] = [min(values), max(values)]
     return dp[0][-1][1]
 
