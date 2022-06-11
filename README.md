@@ -14,6 +14,7 @@
 #### Languages
 - `Python` : 거의 대부분 문제를 풀이하는 언어
 - `Go` : 일부 풀이가 있는 학습중 언어
+- `Node.js` : 일부 풀이가 있는 학습중 언어
 
 #### Descriptions
 - [백준 프로필](https://www.acmicpc.net/user/jun2korea)
@@ -24,7 +25,8 @@
 
 #### Commit Message
 - BAEKJOON
-    - BOJ `문제번호` solved / solving(`이유`)
+    - BOJ `문제번호` solved `언어` / solving(`이유`)
+    - 언어는 여러개인 경우 나열하기
     - 이유 : WA, TLE, MLE, 비어 있는 경우 미제출
 - AtCoder, Codeforces
     - 현재는 contest문제만 추가
