@@ -79,3 +79,28 @@ if __name__ == "__main__":
             segment_tree.update(i, v)
         else:
             print(segment_tree.tree[1])
+
+# -----------------------------------------
+
+import heapq
+from sys import stdin
+
+input = stdin.readline
+II = lambda: int(input())
+MIIS = lambda: map(int, input().split())
+
+if __name__ == "__main__":
+    N = II()
+    seq = list(MIIS())
+    heap = [(x, idx + 1) for idx, x in enumerate(seq)]
+    heapq.heapify(heap)
+    for _ in range(II()):
+        cmd, *nums = MIIS()
+        if cmd == 1:
+            i, v = nums
+            heapq.heappush(heap, (v, i))
+            seq[i - 1] = v
+            while heap[0][0] != seq[heap[0][1] - 1]:
+                heapq.heappop(heap)
+        else:
+            print(heap[0][1])
