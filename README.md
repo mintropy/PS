@@ -1,6 +1,7 @@
 # Baekjoon Online Judge
 
 [![wakatime](https://wakatime.com/badge/user/d2f7e5d9-29c6-4c2e-85b5-4bb5c795a8eb/project/949c1805-26eb-4e04-89eb-f03f768ea033.svg)](https://wakatime.com/badge/user/d2f7e5d9-29c6-4c2e-85b5-4bb5c795a8eb/project/949c1805-26eb-4e04-89eb-f03f768ea033)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fmintropy%2FPS&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
 ## Problem Solving Solutions
 
@@ -18,7 +19,10 @@
 
 #### Descriptions
 - [백준 프로필](https://www.acmicpc.net/user/jun2korea)
-- [solved.ac 프로필](https://solved.ac/profile/jun2korea)
+    - [solved.ac 프로필](https://solved.ac/profile/jun2korea)
+
+[![Solved.ac프로필](http://mazassumnida.wtf/api/v2/generate_badge?boj=jun2korea)](https://solved.ac/jun2korea)
+
 - [AtCoder 프로필](https://atcoder.jp/users/mintropy)
 - [Codeforces 프로필](https://codeforces.com/profile/mintropy)
 - [민트로피의 민트초코 - tistory blog](https://mintropy.tistory.com/)
@@ -26,7 +30,7 @@
 #### Commit Message
 - BAEKJOON
     - BOJ `문제번호` solved `언어` / solving(`이유`)
-    - 언어는 여러개인 경우 나열하기
+    - 언어는 여러개인 경우 나열하기git
     - 이유 : WA, TLE, MLE, 비어 있는 경우 미제출
 - AtCoder, Codeforces
     - 현재는 contest문제만 추가
