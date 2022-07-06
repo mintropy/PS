@@ -26,6 +26,9 @@
 - [AtCoder 프로필](https://atcoder.jp/users/mintropy)
 - [Codeforces 프로필](https://codeforces.com/profile/mintropy)
 - [민트로피의 민트초코 - tistory blog](https://mintropy.tistory.com/)
+    - 더 깊게 살펴본 문제의 풀이를 올림
+- [mintchoco](https://mintchoco.markbase.xyz/%28Home)
+    - 조금 더 간략하고 빠르게 풀이를 올림
 
 #### Commit Message
 - BAEKJOON
