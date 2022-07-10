@@ -10,7 +10,7 @@ MIIS = lambda: map(int, input().split())
 
 
 def bin_search(H: int, dungeons: list[tuple[int]]) -> int:
-    left, right = 0, 10**14
+    left, right = 0, 10**17
     ans = 0
     while left <= right:
         mid = (left + right) // 2
