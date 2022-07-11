@@ -27,7 +27,6 @@ if __name__ == "__main__":
         [[0] * (W + 2)] + [[0] + list(MIIS()) + [0] for _ in range(H)] + [[0] * (W + 2)]
     )
     visited = [[False] * (W + 2) for _ in range(H + 2)]
-    count = [[0] * (W + 2) for _ in range(H + 2)]
     delta = [
         [(-1, 0), (0, 1), (1, 0), (1, -1), (0, -1), (-1, -1)],
         [(-1, 1), (0, 1), (1, 1), (1, 0), (0, -1), (-1, 0)],
@@ -40,7 +39,6 @@ if __name__ == "__main__":
             continue
         visited[x][y] = True
         ans += count_walls(x, y)
-        count[x][y] = count_walls(x, y)
         for dx, dy in delta[x % 2]:
             nx, ny = x + dx, y + dy
             if 0 <= nx <= H + 1 and 0 <= ny <= W + 1:
