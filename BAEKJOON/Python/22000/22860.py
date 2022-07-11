@@ -11,7 +11,6 @@ input = stdin.readline
 
 @dataclass
 class Directory:
-    directory: str
     parent: str
     files_count: int = 0
     files: set = field(default_factory=set)
@@ -31,22 +30,19 @@ def update_files(folder_name: str, file_name: str) -> None:
 
 if __name__ == "__main__":
     N, M = map(int, input().split())
-    directory: dict[str, Directory] = {"main": Directory(directory="main", parent="")}
-    folder_to_directory: dict[str:str] = {"main": "main"}
+    directory: dict[str, Directory] = {"main": Directory(parent="")}
+    folder_to_directory: dict[str, str] = {"main": "main"}
     for _ in range(N + M):
         P, F, C = input().strip().split()
         P = folder_to_directory[P]
-        is_file = True if C == "0" else False
-        if is_file:
+        if C == "0":
             directory[P].files.add(F)
             directory[P].files_count += 1
             update_files(P, F)
         else:
-            parent_directory = directory[P].directory
+            parent_directory = P
             child_directory = f"{parent_directory}/{F}"
-            directory[child_directory] = Directory(
-                directory=child_directory, parent=parent_directory
-            )
+            directory[child_directory] = Directory(parent=parent_directory)
             folder_to_directory[F] = child_directory
     for _ in range(int(input())):
         d = input().strip()
