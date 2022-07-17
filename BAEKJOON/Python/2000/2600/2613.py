@@ -9,12 +9,16 @@ input = stdin.readline
 MIIS = lambda: map(int, input().split())
 
 
-def search(N: int, M: int, beads: tuple[int]) -> int:
+def search(M: int, beads: tuple[int]) -> int:
     left, right = 0, sum(beads)
+    max_bead = max(beads)
     ans = right
     beads_count = []
     while left <= right:
         mid = (left + right) // 2
+        if mid < max_bead:
+            left = mid + 1
+            continue
         counts = get_beads_counts(M, mid, beads)
         if counts:
             ans = mid
@@ -40,13 +44,25 @@ def get_beads_counts(divide: int, max_sum: int, beads: tuple[int]) -> list[int]:
             return []
         sum_now += x
         count += 1
-    if idx < divide - 1:
-        return []
     counts[idx] = count
+    left = idx
+    idx += 1
+    while idx < divide:
+        if counts[left] > 1:
+            counts[left] -= 1
+            counts[idx] += 1
+            idx += 1
+        else:
+            left -= 1
     return counts
 
 
 if __name__ == "__main__":
     N, M = MIIS()
     beads = tuple(MIIS())
-    search(N, M, beads)
+    search(M, beads)
+
+"""
+4 4
+3 1 1 1
+"""
