@@ -15,10 +15,14 @@
 <img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=Go&logoColor=white">
 <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
 
-- [BAEKJOON](https://www.acmicpc.net/)
-- [AtCoder](https://atcoder.jp/)
-- [Codeforces](https://codeforces.com/)
-- [SWEA](https://swexpertacademy.com/main/main.do)
+[<img src="https://img.atcoder.jp/assets/atcoder.png" height="30"/>](https://atcoder.jp/)
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">
+
+[<img src="https://cdn.codeforces.com/s/90438/images/codeforces-sponsored-by-ton.png" height="30"/>](https://codeforces.com/)
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">
+
+[<img src="https://swexpertacademy.com/main/images/sw_img/main_logo.png" height="30"/>](https://swexpertacademy.com/main/main.do)
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">
 
 #### Languages
 - `Python` : 거의 대부분 문제를 풀이하는 언어
