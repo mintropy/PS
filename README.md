@@ -11,11 +11,8 @@
 
 
 [<img src="https://d2gd6pc034wcta.cloudfront.net/images/logo@2x.png" height="30"/>](https://www.acmicpc.net/)
-
 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">
-
 <img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=Go&logoColor=white">
-
 <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
 
 - [BAEKJOON](https://www.acmicpc.net/)
