@@ -8,8 +8,6 @@
 #### Problems
 - 아직 해결하지 못한 문제에 대한 코드가 포함되어 있습니다
 
-
-
 [<img src="https://d2gd6pc034wcta.cloudfront.net/images/logo@2x.png" height="30"/>](https://www.acmicpc.net/)
 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">
 <img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=Go&logoColor=white">
@@ -25,16 +23,17 @@
 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">
 
 #### Languages
-- `Python` : 거의 대부분 문제를 풀이하는 언어
-- `Go` : 일부 풀이가 있는 학습중 언어
-- `Node.js` : 일부 풀이가 있는 학습중 언어
+
+|language|description|
+|--|--|
+|<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">|거의 대부분 문제를 풀이하는 언어|
+|<img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=Go&logoColor=white">|일부 풀이가 있는 학습중 언어|
+|<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">|일부 풀이가 있는 학습중 언어|
 
 #### Descriptions
+[![Solved.ac프로필](http://mazassumnida.wtf/api/v2/generate_badge?boj=jun2korea)](https://solved.ac/jun2korea)
 - [백준 프로필](https://www.acmicpc.net/user/jun2korea)
     - [solved.ac 프로필](https://solved.ac/profile/jun2korea)
-
-[![Solved.ac프로필](http://mazassumnida.wtf/api/v2/generate_badge?boj=jun2korea)](https://solved.ac/jun2korea)
-
 - [AtCoder 프로필](https://atcoder.jp/users/mintropy)
 - [Codeforces 프로필](https://codeforces.com/profile/mintropy)
 - [민트로피의 민트초코 - tistory blog](https://mintropy.tistory.com/)
