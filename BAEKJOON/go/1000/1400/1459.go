@@ -33,8 +33,7 @@ func main() {
 			min, max = Y, X
 		} else {
 			min, max = X, Y
-		}
-		dist += min * S
+		}		dist += min * S
 		if S < W {
 			dist += int((max-min)/2) * 2 * S
 			dist += ((max - min) % 2) * W
