@@ -12,6 +12,7 @@
 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">
 <img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=Go&logoColor=white">
 <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=Node.js&logoColor=white">
 
 [<img src="https://img.atcoder.jp/assets/atcoder.png" height="30"/>](https://atcoder.jp/)
 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">
@@ -29,6 +30,7 @@
 |<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">|그래프 탐색 등 알고리즘 문제를 해결할 수 있음|
 |<img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=Go&logoColor=white">|기본적인 조건문, 반복문 문제를 해결할 수 있음|
 |<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">|기본적인 조건문, 반복문 문제를 해결할 수 있음|
+|<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=Node.js&logoColor=white">|기본적인 조건문, 반복문 문제를 해결할 수 있음|
 
 #### Descriptions
 [![Solved.ac프로필](http://mazassumnida.wtf/api/v2/generate_badge?boj=jun2korea)](https://solved.ac/jun2korea)
