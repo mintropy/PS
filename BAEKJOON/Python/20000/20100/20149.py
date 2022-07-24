@@ -59,8 +59,6 @@ if __name__ == "__main__":
 
 
 """
-https://velog.io/@jini_eun/%EB%B0%B1%EC%A4%80-20149-%EC%84%A0%EB%B6%84-%EA%B5%90%EC%B0%A8-3-Java-Python
-
 1 6 5 5
 5 5 1 1
 # 1
