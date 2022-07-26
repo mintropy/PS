@@ -13,13 +13,11 @@ MIIS = lambda: map(int, input().split())
 if __name__ == "__main__":
     N, M = MIIS()
     seq = [0] + list(MIIS())
-    mod_counts = {i: 0 for i in range(M)}
+    mod_counts = [0] * M
     mod_counts[0] += 1
     for i in range(N):
         seq[i + 1] += seq[i]
         seq[i + 1] %= M
         mod_counts[seq[i + 1]] += 1
-    ans = 0
-    for v in mod_counts.values():
-        ans += comb(v, 2)
+    ans = sum([comb(x, 2) for x in mod_counts])
     print(ans)
