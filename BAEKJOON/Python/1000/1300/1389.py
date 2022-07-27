@@ -12,8 +12,6 @@ MIIS = lambda: map(int, input().split())
 if __name__ == "__main__":
     N, M = MIIS()
     friends = [[0] * N for _ in range(N)]
-    for i in range(N):
-        friends[i][i] = 0
     for _ in range(M):
         a, b = MIIS()
         friends[a - 1][b - 1] = 1
