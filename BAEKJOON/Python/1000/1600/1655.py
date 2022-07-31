@@ -3,24 +3,11 @@ Title : 가운데를 말해요
 Link : https://www.acmicpc.net/problem/1655
 """
 
-import heapq
+from heapq import heappush, heappushpop
 from sys import stdin
 
 input = stdin.readline
 II = lambda: int(input())
-
-
-def adjust_heap():
-    global mid, small_val, large_val
-    while True:
-        if len(small_val) == len(large_val) or len(small_val) + 1 == len(large_val):
-            return
-        if len(small_val) > len(large_val):
-            mid, tmp = -heapq.heappop(small_val), mid
-            heapq.heappush(large_val, tmp)
-        else:
-            tmp, mid = mid, heapq.heappop(large_val)
-            heapq.heappush(small_val, -tmp)
 
 
 if __name__ == "__main__":
@@ -30,11 +17,18 @@ if __name__ == "__main__":
     small_val, large_val = [], []
     for i in range(1, N):
         k = II()
-        if k >= mid:
-            heapq.heappush(large_val, k)
+        if i % 2:
+            if k < mid:
+                heappush(large_val, mid)
+                mid = -heappushpop(small_val, -k)
+            else:
+                heappush(large_val, k)
         else:
-            heapq.heappush(small_val, -k)
-        adjust_heap()
+            if k > mid:
+                heappush(small_val, -mid)
+                mid = heappushpop(large_val, k)
+            else:
+                heappush(small_val, -k)
         ans += f"{mid}\n"
     print(ans)
 
