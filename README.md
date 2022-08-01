@@ -25,12 +25,12 @@
 
 #### Languages
 
-|language|description|
-|--|--|
-|<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">|그래프 탐색 등 알고리즘 문제를 해결할 수 있음|
-|<img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=Go&logoColor=white">|기본적인 조건문, 반복문 문제를 해결할 수 있음|
-|<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">|기본적인 조건문, 반복문 문제를 해결할 수 있음|
-|<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=Node.js&logoColor=white">|기본적인 조건문, 반복문 문제를 해결할 수 있음|
+| language                                                                                                    | description                                   |
+| ----------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">      | 그래프 탐색 등 알고리즘 문제를 해결할 수 있음 |
+| <img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=Go&logoColor=white">              | 기본적인 조건문, 반복문 문제를 해결할 수 있음 |
+| <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">    | 기본적인 조건문, 반복문 문제를 해결할 수 있음 |
+| <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=Node.js&logoColor=white"> | 기본적인 조건문, 반복문 문제를 해결할 수 있음 |
 
 #### Descriptions
 [![Solved.ac프로필](http://mazassumnida.wtf/api/v2/generate_badge?boj=jun2korea)](https://solved.ac/jun2korea)
@@ -46,6 +46,9 @@
 #### Commit Message
 - BAEKJOON
     - BOJ `문제번호` solved `언어` / solving(`이유`)
+        - 해당 풀이가 정답으로 통과한 경우 / 또는 통과하지 못한 경우
+    - BOJ `문제번호` update
+        - 기존 완료한 풀이 코드를 수정한 경우
     - 언어는 여러개인 경우 나열하기git
     - 이유 : WA, TLE, MLE, 비어 있는 경우 미제출
 - AtCoder, Codeforces
