@@ -60,10 +60,10 @@ if __name__ == "__main__":
         seq[i][0] = x
         seq[i][1] = y
         seq[i][2] = z
-    count = 0
     row, column = 3, 3
-    while count <= 100:
+    for count in range(101):
         if seq[r][c] == k:
+            print(count)
             break
         if row >= column:
             for i in range(row):
@@ -71,8 +71,5 @@ if __name__ == "__main__":
         else:
             for i in range(column):
                 sort_column(i)
-        count += 1
-    if count > 100:
-        print(-1)
     else:
-        print(count)
+        print(-1)
