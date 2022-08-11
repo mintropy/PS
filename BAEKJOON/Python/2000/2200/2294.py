@@ -10,11 +10,14 @@ input = stdin.readline
 
 if __name__ == "__main__":
     n, k = map(int, input().split())
-    dp = [0] * (k + 1)
+    dp = [100_000] * (k + 1)
+    dp[0] = 0
     for _ in range(n):
         coin = int(input())
-        for i in range(k, 0, -1):
-            if dp[i] and i + coin <= n + 1:
-                dp[i + coin] = dp[i] + 1
-        dp[coin] = 1
-    print(dp[k])
+        for i in range(coin, k + 1):
+            if dp[i] > dp[i - coin] + 1:
+                dp[i] = dp[i - coin] + 1
+    if dp[k] == 100_000:
+        print(-1)
+    else:
+        print(dp[k])
