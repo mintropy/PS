@@ -17,7 +17,6 @@ class SegmentTree:
         self.seq = [0] + seq
         self.tree = [0] * (1 << (ceil(log2(N)) + 1))
         self.lazy = [0] * (1 << (ceil(log2(N)) + 1))
-        self.length = len(self.tree)
         self.init_tree(1, 1, N)
 
     def mid(self, start: int, end: int) -> int:
