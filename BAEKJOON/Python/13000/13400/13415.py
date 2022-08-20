@@ -15,11 +15,6 @@ MIIS = lambda: map(int, input().split())
 if __name__ == "__main__":
     N = II()
     seq = list(MIIS())
-    K = II()
-    queue = deque([tuple(MIIS())])
-    for _ in range(K - 1):
+    stack = []
+    for _ in range(II()):
         A, B = MIIS()
-        if (A, B) <= queue[0]:
-            queue.appendleft((A, B))
-        else:
-            queue.appendleft((A, B))
