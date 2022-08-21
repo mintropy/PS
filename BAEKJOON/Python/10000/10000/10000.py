@@ -13,15 +13,26 @@ if __name__ == "__main__":
     circles = []
     for _ in range(N):
         x, r = map(int, input().split())
-        circles.append((x - r, x + r))
-    circles.sort(key=lambda x: (x[0], -x[1]))
-    ans = 0
+        circles.append((0, x + r))
+        circles.append((1, x - r))
+    circles.sort(key=lambda x: (x[1], x[0]))
+    ans = 1
     stack = []
-    for l, r in circles:
-        if not stack:
-            stack.append((l, r))
+    for k, pos in circles:
+        if k:
+            stack.append((k, pos))
             continue
-        if r < stack[0][1]:
-            pass
-        else:
-            pass
+        total_width = 0
+        while stack:
+            _k, _pos = stack.pop()
+            if _k:
+                width = pos - _pos
+                if width == total_width:
+                    ans += 2
+                else:
+                    ans += 1
+                stack.append((k, width))
+                break
+            else:
+                total_width += _pos
+    print(ans)
