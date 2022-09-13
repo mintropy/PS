@@ -10,34 +10,23 @@ II = lambda: int(input())
 MIIS = lambda: map(int, input().split())
 
 
+def search(idx: int, weight: int) -> None:
+    global N, weights, dp
+    if idx > N or dp[idx][weight]:
+        return
+    dp[idx][weight] = True
+    search(idx + 1, weight + weights[idx])
+    search(idx + 1, abs(weight - weights[idx]))
+    search(idx + 1, weight)
+
+
 if __name__ == "__main__":
     N = II()
-    weights = sorted(MIIS())
-
-    dp = [False] * 40_001
-    weights_check = [set() for _ in range(40_001)]
-    dp[0] = True
-    for w in weights:
-        for i in range(40_000, w - 1, -1):
-            if dp[i - w]:
-                dp[i] = True
-                weights_check[i] |= {*weights_check[i - w], w}
+    weights = list(MIIS()) + [0]
+    dp = [[False] * 40_001 for _ in range(31)]
+    search(0, 0)
 
     X = II()
     target = list(MIIS())
-    ans = []
-    for t in target:
-        if dp[t]:
-            ans.append("Y")
-            continue
-        for i in range(1, t):
-            if t + i > 40_000:
-                ans.append("N")
-            if dp[t - i] and dp[t + i]:
-                if weights_check[t - i] & weights_check[i]:
-                    continue
-                ans.append("Y")
-                break
-        else:
-            ans.append("N")
-    print(" ".join(ans))
+    ans = " ".join(["Y" if dp[N][t] else "N" for t in target])
+    print(ans)
