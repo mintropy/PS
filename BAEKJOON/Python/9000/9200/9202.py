@@ -9,6 +9,8 @@ input = stdin.readline
 II = lambda: int(input())
 IS = lambda: input().strip()
 
+Vector = tuple[int]
+
 
 def search(x: int, y: int, string: str, visited: set):
     global trie, words_count, delta, boggle_board
@@ -18,9 +20,9 @@ def search(x: int, y: int, string: str, visited: set):
         words_count.add(string)
     for dx, dy in delta:
         nx, ny = x + dx, y + dy
+        if (nx, ny) in visited:
+            continue
         if 0 <= nx < 4 and 0 <= ny < 4:
-            if (nx, ny) in visited:
-                continue
             search(
                 nx,
                 ny,
@@ -43,10 +45,8 @@ if __name__ == "__main__":
             last_word = next_word
         trie[last_word][1] = True
 
-    input()
-    B: int = II()
-    words_point: dict[int, int] = {1: 0, 2: 0, 3: 1, 4: 1, 5: 2, 6: 3, 7: 5, 8: 11}
-    delta: tuple[tuple[int]] = (
+    words_point: Vector = (0, 0, 0, 1, 1, 2, 3, 5, 11)
+    delta: tuple[Vector] = (
         (-1, 0),
         (-1, 1),
         (0, 1),
@@ -56,22 +56,35 @@ if __name__ == "__main__":
         (0, -1),
         (-1, -1),
     )
-    for _ in range(B):
-        boggle_board: list[str] = [IS() for _ in range(4)]
-        words_count: set = set()
 
+    input()
+    B: int = II()
+    for k in range(B):
+        boggle_board: tuple[str] = tuple(IS() for _ in range(4))
+        words_count: set[str] = set()
         for i, line in enumerate(boggle_board):
             for j, s in enumerate(line):
-                if s not in trie:
-                    continue
                 search(i, j, s, {(i, j)})
 
-        words_count = sorted(words_count, key=lambda x: len(x))
+        words_count = sorted(words_count, key=lambda x: (-len(x), x))
         score: int = sum([words_point[len(x)] for x in words_count])
-        max_len_word: str = words_count[-1]
+        max_len_word: str = words_count[0]
         print(score, max_len_word, len(words_count))
-
-        try:
-            input()
-        except Exception:
+        if k == B - 1:
             break
+        else:
+            input()
+
+"""
+3
+ABAA
+ABAB
+ZZZ
+
+1
+AAAB
+AAAB
+AAAB
+ZZZB
+
+"""
