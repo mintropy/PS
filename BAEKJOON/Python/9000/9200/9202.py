@@ -23,12 +23,11 @@ def search(x: int, y: int, string: str, visited: set):
         if (nx, ny) in visited:
             continue
         if 0 <= nx < 4 and 0 <= ny < 4:
-            search(
-                nx,
-                ny,
-                string + boggle_board[nx][ny],
-                visited | {(nx, ny)},
-            )
+            next_string = boggle_board[nx][ny]
+            if (next_string := boggle_board[nx][ny]) not in trie[string][0]:
+                continue
+            else:
+                search(nx, ny, string + next_string, visited | {(nx, ny)})
 
 
 if __name__ == "__main__":
