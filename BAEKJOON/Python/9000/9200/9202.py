@@ -12,37 +12,42 @@ IS = lambda: input().strip()
 Vector = tuple[int]
 
 
-def search(x: int, y: int, string: str, visited: set):
+class Node:
+    def __init__(self) -> None:
+        self.last: bool = False
+        self.child: dict = {}
+
+    def add_node(self, string: str) -> None:
+        current = self
+        for s in string:
+            if s not in current.child:
+                current.child[s] = Node()
+            current = current.child[s]
+        current.last = True
+
+
+def search(x: int, y: int, string: str, node: Node):
     global trie, words_count, delta, boggle_board
-    if string not in trie:
-        return
-    if trie[string][1]:
+    if node.last:
         words_count.add(string)
+    visited[x][y] = True
     for dx, dy in delta:
         nx, ny = x + dx, y + dy
-        if (nx, ny) in visited:
-            continue
         if 0 <= nx < 4 and 0 <= ny < 4:
-            next_string = boggle_board[nx][ny]
-            if (next_string := boggle_board[nx][ny]) not in trie[string][0]:
+            if visited[nx][ny]:
                 continue
-            else:
-                search(nx, ny, string + next_string, visited | {(nx, ny)})
+            if (s := boggle_board[nx][ny]) in node.child:
+                search(nx, ny, string + s, node.child[s])
+                pass
+    visited[x][y] = False
 
 
 if __name__ == "__main__":
     W: int = II()
-    words: list[str] = [IS() for _ in range(W)]
-    trie = {"": [set(), False]}
-    for word in words:
-        last_word: str = ""
-        for s in word:
-            next_word: str = last_word + s
-            trie[last_word][0].add(s)
-            if next_word not in trie:
-                trie[next_word] = [set(), False]
-            last_word = next_word
-        trie[last_word][1] = True
+    trie = Node()
+    for _ in range(W):
+        string = IS()
+        trie.add_node(string)
 
     words_point: Vector = (0, 0, 0, 1, 1, 2, 3, 5, 11)
     delta: tuple[Vector] = (
@@ -55,24 +60,27 @@ if __name__ == "__main__":
         (0, -1),
         (-1, -1),
     )
+    visited = [[False] * 4 for _ in range(4)]
 
     input()
     B: int = II()
+    ans = ""
     for k in range(B):
         boggle_board: tuple[str] = tuple(IS() for _ in range(4))
         words_count: set[str] = set()
         for i, line in enumerate(boggle_board):
             for j, s in enumerate(line):
-                search(i, j, s, {(i, j)})
+                if s in trie.child:
+                    search(i, j, s, trie.child[s])
 
         words_count = sorted(words_count, key=lambda x: (-len(x), x))
         score: int = sum([words_point[len(x)] for x in words_count])
         max_len_word: str = words_count[0]
-        print(score, max_len_word, len(words_count))
+        ans += f"{score} {max_len_word} {len(words_count)}\n"
         if k == B - 1:
             break
-        else:
-            input()
+        input()
+    print(ans)
 
 """
 3
