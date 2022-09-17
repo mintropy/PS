@@ -73,9 +73,14 @@ if __name__ == "__main__":
                 if s in trie.child:
                     search(i, j, s, trie.child[s])
 
-        words_count = sorted(words_count, key=lambda x: (-len(x), x))
-        score: int = sum([words_point[len(x)] for x in words_count])
-        max_len_word: str = words_count[0]
+        score: int = 0
+        max_len_word = "a"
+        for word in words_count:
+            score += words_point[len(word)]
+            if len(max_len_word) < len(word) or (
+                len(max_len_word) == len(word) and max_len_word > word
+            ):
+                max_len_word = word
         ans += f"{score} {max_len_word} {len(words_count)}\n"
         if k == B - 1:
             break
