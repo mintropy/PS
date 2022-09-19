@@ -15,9 +15,9 @@ def search():
         x, y, day, wall, move = queue.popleft()
         if wall > K:
             continue
-        if -1 != visited[x][y][day] <= move:
+        if -1 != visited[wall][x][y][day] <= move:
             continue
-        visited[x][y][day] = move
+        visited[wall][x][y][day] = move
         if x == N and y == M:
             continue
         for dx, dy in delta:
@@ -35,17 +35,12 @@ def search():
 if __name__ == "__main__":
     N, M, K = map(int, input().split())
     my_map = [[int(x) for x in input().strip()] for _ in range(N)]
-    visited = [[[-1] * 2 for _ in range(M)] for _ in range(N)]
-    wall_break = [[[N * M] * 2 for _ in range(M)] for _ in range(N)]
+    visited = [[[[-1] * 2 for _ in range(M)] for _ in range(N)] for _ in range(K + 1)]
     delta = ((-1, 0), (0, 1), (1, 0), (0, -1))
     search()
-    day, night = visited[N - 1][M - 1]
-    match day, night:
-        case (-1, -1):
-            print(-1)
-        case (-1, y):
-            print(y)
-        case (x, -1):
-            print(x)
-        case (x, y):
-            print(min(x, y))
+    possible_move = []
+    for wall_count in visited:
+        for x in wall_count[N - 1][M - 1]:
+            if x != -1:
+                possible_move.append(x)
+    print(min(possible_move))
