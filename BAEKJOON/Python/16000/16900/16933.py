@@ -13,8 +13,6 @@ def search():
     queue = deque([(0, 0, True, 0, 1)])
     while queue:
         x, y, day, wall, move = queue.popleft()
-        if wall > K:
-            continue
         if -1 != visited[wall][x][y][day] <= move:
             continue
         visited[wall][x][y][day] = move
@@ -24,7 +22,7 @@ def search():
             nx, ny = x + dx, y + dy
             if 0 <= nx < N and 0 <= ny < M:
                 if my_map[nx][ny]:
-                    if day:
+                    if day and wall < K:
                         queue.append((nx, ny, not day, wall + 1, move + 1))
                     else:
                         queue.append((x, y, not day, wall, move + 1))
