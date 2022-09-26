@@ -1,8 +1,64 @@
-'''
+"""
 Title : 2048 (Easy)
 Link : https://www.acmicpc.net/problem/12100
-'''
+"""
 
+from sys import stdin
+
+input = stdin.readline
+
+Board = list[list[int]]
+
+
+class Board:
+    def __init__(self) -> None:
+        self.max_value = 0
+
+    def rotate(self, board: Board) -> list[Board]:
+        board_list = [
+            board,
+            [line[::-1] for line in board],
+            list(list(line) for line in zip(*board)),
+            list(list(line) for line in zip(*[line for line in board[::-1]])),
+        ]
+        return board_list
+
+    def move(self, board: Board) -> Board:
+        new_board = []
+        for line in board:
+            new_line = [0] * len(line)
+            idx = 0
+            for x in line:
+                if not x:
+                    continue
+                if not new_line[idx]:
+                    new_line[idx] = x
+                elif new_line[idx] == x:
+                    new_line[idx] = x * 2
+                    idx += 1
+                else:
+                    idx += 1
+                    new_line[idx] = x
+            new_board.append(new_line)
+        return new_board
+
+    def dfs(self, move_count: int, board: Board) -> None:
+        if not move_count:
+            if self.max_value < (tmp := max([max(line) for line in board])):
+                self.max_value = tmp
+            return
+        for new_board in self.rotate(board):
+            self.dfs(move_count - 1, self.move(new_board))
+
+
+if __name__ == "__main__":
+    N = int(input())
+    board = [list(map(int, input().split())) for _ in range(N)]
+    board2048 = Board()
+    board2048.dfs(5, board)
+    print(board2048.max_value)
+
+"""
 import sys
 
 input = sys.stdin.readline
@@ -112,3 +168,4 @@ board = [list(map(int, input().split())) for _ in range(n)]
 board2048 = Board(board, n)
 board2048.dfs(0, board2048.board)
 print(board2048.max_block)
+"""
