@@ -12,12 +12,12 @@ def solve(N: int) -> int:
     if N % 2:
         return 0
     dp = [0] * (N // 2 + 1)
-    dp[0] = 1
-    for i in range(1, N // 2 + 1):
-        tmp = dp[i - 1] * 3
-        for j in range(0, i - 1):
-            tmp += dp[j] * 2
-        dp[i] = tmp
+    dp[1] = 3
+    for i in range(2, N // 2 + 1):
+        dp[i] = dp[i - 1] * 3
+        for j in range(2, i):
+            dp[i] += dp[i - j] * 2
+        dp[i] += 2
     return dp[-1]
 
 
