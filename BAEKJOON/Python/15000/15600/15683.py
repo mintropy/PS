@@ -1,43 +1,60 @@
-'''
+"""
 Title : 감시
 Link : https://www.acmicpc.net/problem/15683
-'''
+"""
 
 # 1번 cctv 감시 만드는 중 - 완료
 # 2 ~ 5번 cctv 만들기 : 2 완료
 # dfs 부분 수정해야됨
 
-import sys
+from sys import stdin
 
-input = sys.stdin.readline
+input = stdin.readline
+MIIS = lambda: map(int, input().split())
+
+Coordinates = list[tuple[int]]
+
 
 class CCTV:
-    def __init__(self, office, n, m, cctv):
-        self.office = office
-        self.office_size = [n, m]
-        self.cctv = cctv
-        # 방향은 순서대로 0, 1, 2, 3으로 지정
-        # 각각 오른쪽, 아래, 왼쪽, 위
-        self.direction = [[0, 1, 0, -1], [1, 0, -1, 0]]
+    def __init__(self, N: int, M: int, office: list[list[int]]) -> None:
+        self.office: list[list[int]] = office
+        self.office_size: list[int] = [n, m]
+        self.cctvs: Coordinates = []
+        self.walls: Coordinates = []
+        self.cctvs, self.walls = self.find_cctv_wall(self.office)
+        self.delta = ((-1, 0), (0, 1), (1, 0), (0, -1))
         self.max_watch = 0
 
+    def find_cctv_wall(office: list[list[int]]) -> tuple[Coordinates]:
+        cctvs: Coordinates = []
+        walls: Coordinates = []
+        for i, line in enumerate(office):
+            for j, x in enumerate(line):
+                if not x:
+                    continue
+                elif x == 6:
+                    walls.append((i, j))
+                else:
+                    cctvs.append((i, j, x))
+        return cctvs, walls
+
     def count_watch(self, office: list) -> int:
-        '''
+        """
         count all watched space
-        '''
+        """
         count = 0
         for i in range(self.office_size[0]):
             for j in range(self.office_size[1]):
-                if office[i][j] == '#':
+                if office[i][j] == "#":
                     count += 1
         return count
 
     def cctv_1(self, i: int, j: int, office: list, d: int) -> list:
-        '''
+        """
         search office form (i, j) by given direction d
-        '''
+        """
         next_office = office.copy()
-        next_office[i][j] = '#'
+        next_office[i][j] = "#"
         x, y = i + self.direction[0][d], j + self.direction[1][d]
         while True:
             # 감시 범위가 사무실을 넘어가면 중지
@@ -49,7 +66,7 @@ class CCTV:
             if self.office[x][y] == 6:
                 break
             # 해당되지 않으면, 감시 처리
-            next_office[x][y] = '#'
+            next_office[x][y] = "#"
             x += self.direction[0][d]
             y += self.direction[1][d]
         return next_office
@@ -116,14 +133,7 @@ class CCTV:
             self.dfs(idx + 1, self.cctv_5(i, j, office))
 
 
-n, m = map(int, input().split())
-office = [list(map(int, input().split())) for _ in range(n)]
-cctv = []
-for i in range(n):
-    for j in range(m):
-        if 0 < office[i][j] < 6:
-            cctv.append([i, j, office[i][j]])
-start_link_office = CCTV(office, n, m, cctv)
-office_check_watch = [[0 for _ in range(m)] for _ in range(n)]
-start_link_office.dfs(0, office_check_watch)
-print(start_link_office.max_watch)
+if __name__ == "__main__":
+    N, M = MIIS()
+    office_map = [list(MIIS()) for _ in range(N)]
+    cctv = CCTV(N, M, office_map)
