@@ -16,30 +16,23 @@ class Solution:
     def reverseBetween(
         self, head: Optional[ListNode], left: int, right: int
     ) -> Optional[ListNode]:
-        left_list, mid_list, right_list = [], [], []
-        idx = 0
-        while head is not None:
-            if idx < left:
-                left_list.append(head.val)
-            elif left <= idx < right:
-                mid_list.append(head.val)
-            else:
-                right_list.append(head.val)
-            head = head.next
-            idx += 1
-        mid_list.reverse()
-        nums = left_list + mid_list + right_list
-        return self.make_linked_list(nums)
+        if left == right:
+            return head
+        ans = now = ListNode(None)
 
-    def make_linked_list(self, nums):
-        if not nums:
-            return
-        linked_list = ListNode(nums[0])
-        now = linked_list
-        for x in nums[1:]:
-            now.next = ListNode(x)
+        now.next = head
+        for _ in range(left - 1):
             now = now.next
-        return linked_list
+        next_node = now.next
+
+        for _ in range(right - left):
+            tmp, now.next, next_node.next = (
+                now.next,
+                next_node.next,
+                next_node.next.next,
+            )
+            now.next.next = tmp
+        return ans.next
 
 
 if __name__ == "__main__":
