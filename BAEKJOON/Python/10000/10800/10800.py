@@ -7,6 +7,11 @@ import sys
 input = sys.stdin.readline
 
 
+if __name__ == "__main__":
+    N = int(input())
+    balls = [tuple(map(int, input().split())) for _ in range(N)]
+
+
 N = int(input())
 balls = [list(map(int, input().split())) + [i] for i in range(N)]
 balls.sort(key=lambda x:x[1])
