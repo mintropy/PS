@@ -20,6 +20,8 @@ class Solution:
         cities = {x: [] for (x, _) in tickets}
         for i, (st, end) in enumerate(tickets):
             cities[st].append((i, end))
+        for k, v in cities.items():
+            cities[k] = sorted(v, key=lambda x: x[1])
         cities_count = len(tickets)
         self.cities = cities
         self.cities_count = cities_count
@@ -30,18 +32,21 @@ class Solution:
         if count == self.cities_count:
             if not self.ans or trip < self.ans:
                 self.ans = trip[::]
-            return
+            return True
+        if self.ans:
+            return True
         if city_now not in self.cities:
-            return
+            return False
         for i, next_city in self.cities[city_now]:
             if self.check[i]:
                 continue
             trip.append(next_city)
             self.check[i] = True
-            self.search(count + 1, next_city, trip)
+            if self.search(count + 1, next_city, trip):
+                return True
             trip.pop()
             self.check[i] = False
-        return
+        return False
 
 
 if __name__ == "__main__":
