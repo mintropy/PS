@@ -18,21 +18,15 @@ class Solution:
         self.ans = 0
 
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        if root is None:
-            return 0
-        return self.search(root, 1)[1]
+        return self.search(root, 1)[0]
 
-    def search(self, node, depth):
-        if node.left is None and node.right is None:
-            return 0, depth
-        left_depth = right_depth = depth
-        left_max = right_max = 0
-        if node.left is not None:
-            left_max, left_depth = self.search(node.left, depth + 1)
-        if node.right is not None:
-            right_max, right_depth = self.search(node.right, depth + 1)
-        self.ans = max(self.ans, left_max + right_max)
-        return max(left_max, right_max), max(left_depth, right_depth)
+    def search(self, node: Optional[TreeNode], depth):
+        if node is None:
+            return 0, depth - 1
+        left_ans, left_max = self.search(node.left, depth + 1)
+        right_ans, right_max = self.search(node.right, depth + 1)
+        tmp = left_max + right_max - depth * 2
+        return max(left_ans, right_ans, tmp), max(left_max, right_max)
 
 
 if __name__ == "__main__":
