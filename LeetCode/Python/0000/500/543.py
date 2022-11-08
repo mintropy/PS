@@ -14,9 +14,6 @@ class TreeNode:
 
 
 class Solution:
-    def __init__(self) -> None:
-        self.ans = 0
-
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         return self.search(root, 1)[0]
 
