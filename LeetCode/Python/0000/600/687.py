@@ -15,24 +15,21 @@ class TreeNode:
 
 class Solution:
     def longestUnivaluePath(self, root: Optional[TreeNode]) -> int:
-        _, ans, _ = self.search(root)
-        return ans
+        return self.search(root, 1)[1]
 
-    def search(self, node: Optional[TreeNode]):
+    def search(self, node: Optional[TreeNode], depth):
         if node is None:
-            return 2000, 0, 0
-        left_val, left_max, left_count = self.search(node.left)
-        right_val, right_max, right_count = self.search(node.right)
-        mid_val, mid_max, mid_count = node.val, 0, 0
-        tmp = 1
-        if mid_val == left_val:
-            tmp += left_count
-            mid_count = left_count + 1
-        if mid_val == right_val:
-            tmp += right_count
-            mid_count = max(mid_count, right_count)
-        mid_max = max(left_max, right_max, tmp)
-        return mid_val, mid_max, mid_count
+            return -1, 0, depth - 1
+        left_val, left_ans, left_max = self.search(node.left, depth + 1)
+        right_val, right_ans, right_max = self.search(node.right, depth + 1)
+        mid_ans , mid_max = 0, depth
+        if node.val == left_val:
+            mid_ans += left_max - depth
+            mid_max = max(mid_max, left_max)
+        if node.val == right_val:
+            mid_ans += right_max - depth
+            mid_max = max(mid_max, right_max)
+        return node.val, max(left_ans, right_ans, mid_ans), mid_max
 
 
 if __name__ == "__main__":
