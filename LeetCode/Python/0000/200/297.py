@@ -3,6 +3,8 @@ Title : Serialize and Deserialize Binary Tree
 Link : https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
 """
 
+from collections import deque
+
 # Definition for a binary tree node.
 # Defining a class called TreeNode.
 class TreeNode(object):
@@ -19,9 +21,17 @@ class Codec:
         :type root: TreeNode
         :rtype: str
         """
-        if root is None:
-            return ""
-        ans = f"{self.val}"
+        queue = deque([root])
+        tree = ["#"]
+        while queue:
+            node = queue.popleft()
+            if node is None:
+                tree.append("#")
+            else:
+                queue.append(node.left)
+                queue.append(node.right)
+                tree.append(f"{node.val}")
+        return " ".join(tree)
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -29,6 +39,23 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
+        nodes = data.split()
+        if nodes[1] == "#":
+            return None
+        root = TreeNode(int(nodes[1]))
+        queue = deque([root])
+        idx = 2
+        while queue:
+            node = queue.popleft()
+            if nodes[idx] != "#":
+                node.left = TreeNode(int(nodes[idx]))
+                queue.append(node.left)
+            idx += 1
+            if nodes[idx] != "#":
+                node.right = TreeNode(int(nodes[idx]))
+                queue.append(node.right)
+            idx += 1
+        return root
 
 
 # Your Codec object will be instantiated and called as such:
