@@ -4,37 +4,36 @@ Link : https://leetcode.com/problems/minimum-height-trees/
 """
 
 from typing import List
-from collections import deque
 
 
 class Solution:
     def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:
-        if n <= 2:
-            return 1
-        graph = [[] for _ in range(n)]
+        node_count = n
+        nodes = {i for i in range(n)}
+        graph = [set() for _ in range(n)]
         for x, y in edges:
-            graph[x].append(y)
-            graph[y].append(x)
-        node = self.find_node(n, 0, graph)[0]
-        nodes = self.find_node(n, node, graph)
-        nodes.append(node)
-        return nodes
-
-    def find_node(self, n, st, graph):
-        queue = [st]
-        ans = []
-        visited = [False] * n
-        while queue:
-            ans = queue[::]
-            next_queue = set()
-            for x in queue:
-                for y in graph[x]:
-                    if not visited[y]:
-                        next_queue.add(y)
-            next_queue = list(next_queue)
-            queue = next_queue[::]
-        return ans
+            graph[x].add(y)
+            graph[y].add(x)
+        leaf = []
+        for i in range(n):
+            if len(graph[i]) == 1:
+                leaf.append(i)
+        while node_count > 2:
+            next_leaf = []
+            for x in leaf:
+                y = graph[x].pop()
+                graph[y].remove(x)
+                if len(graph[y]) == 1:
+                    next_leaf.append(y)
+                node_count -= 1
+                nodes.remove(x)
+            leaf = next_leaf[::]
+        return list(nodes)
 
 
 if __name__ == "__main__":
-    pass
+    n = 6
+    edges = [[0, 1], [0, 2], [0, 3], [3, 4], [4, 5]]
+
+    solution = Solution()
+    print(solution.findMinHeightTrees(n, edges))
