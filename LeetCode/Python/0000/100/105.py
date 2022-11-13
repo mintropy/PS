@@ -15,7 +15,12 @@ class TreeNode:
 
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-        pass
+        if inorder:
+            idx = inorder.index(preorder.pop(0))
+            node = TreeNode(inorder[idx])
+            node.left = self.buildTree(preorder, inorder[0:idx])
+            node.right = self.buildTree(preorder, inorder[idx + 1 :])
+            return node
 
 
 if __name__ == "__main__":
