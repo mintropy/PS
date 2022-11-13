@@ -14,20 +14,20 @@ class TreeNode:
 
 
 class Solution:
-    def __init__(self) -> None:
-        self.ans = 100_000
-
     def minDiffInBST(self, root: Optional[TreeNode]) -> int:
-        self.search(root)
-        return self.ans
-
-    def search(self, node):
-        if node is None:
-            return 200_000
-        val = node.val
-        left, right = self.search(node.left), self.search(node.right)
-        self.ans = min(self.ans, abs(val - left), abs(val - right))
-        return val
+        prev = -200_000
+        ans = 200_000
+        node = root
+        stack = []
+        while stack or node:
+            while node:
+                stack.append(node)
+                node = node.left
+            node = stack.pop()
+            ans = min(ans, node.val - prev)
+            prev = node.val
+            node = node.right
+        return ans
 
 
 if __name__ == "__main__":
