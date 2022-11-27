@@ -8,37 +8,27 @@ from sys import stdin
 input = stdin.readline
 
 
-if __name__ == "__main__":
-    s = input().strip()
+def solve(s: str) -> int:
     l = len(s)
-    if s == s[::-1]:
-        print(l)
-        exit()
-    if l == 1:
-        print(1)
-        exit()
-    if l == 2:
-        if s[0] == s[1]:
-            print(2)
-        else:
-            print(3)
-        exit()
-
+    if s == s[::-1] or l == 1:
+        return l
     for mid in range(l // 2 + l % 2, l):
         if s[mid] == s[mid - 1]:
             for i in range(l - mid - 1):
                 if s[mid + i + 1] != s[mid - i - 2]:
                     break
             else:
-                print(l + mid * 2 - l)
-                break
+                return l + mid * 2 - l
         for i in range(l - mid - 1):
             if s[mid + i + 1] != s[mid - i - 1]:
                 break
         else:
-            print(l + mid * 2 - l + 1)
-            break
+            return l + mid * 2 - l + 1
 
+
+if __name__ == "__main__":
+    s = input().strip()
+    print(solve(s))
 
 """
 Counter Example
