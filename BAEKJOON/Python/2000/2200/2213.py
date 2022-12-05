@@ -3,52 +3,52 @@ Title : 트리의 독립집합
 Link : https://www.acmicpc.net/problem/2213
 """
 
-from collections import deque
 from sys import stdin
 
 input = stdin.readline
 MIIS = lambda: map(int, input().split())
 
 
-def solve(N: int, weights: tuple[int], tree: list[set[int]]) -> list[int]:
-    max_weight = [[0] * 4 for _ in range(N + 1)]
-    for i, w in enumerate(weights):
-        max_weight[i + 1][0] = w
-        max_weight[i + 1][2] = i + 1
-    leaves = deque([x for x in range(1, N + 1) if len(tree[x]) == 1])
+def search(now: int, parent: int):
+    global N, weights, tree, dp
+    dp[now][1] = weights[now - 1]
+    for x in tree[now]:
+        if x == parent:
+            continue
+        search(x, now)
+        dp[now][0] += max(dp[x])
+        dp[now][1] += dp[x][0]
 
-    ans = []
-    while leaves:
-        x = leaves.popleft()
-        if not tree[x]:
-            ans.append(max(max_weight[x]))
-            break
-        y = tree[x].pop()
-        w = weights[y - 1]
 
-        if (tmp := w + max_weight[x][1]) > max_weight[y][0]:
-            max_weight[y][0] = tmp
-            max_weight[y][2] = max_weight[x][3]
-        if (tmp := max(max_weight[x][:2])) > max_weight[y][1]:
-            max_weight[y][1] = tmp
-            if max_weight[x][0] > max_weight[x][1]:
-                max_weight[y][3] = x
+def get_nodes(now: int, parent: int, include: bool) -> list[int]:
+    global tree, dp
+    tmp = []
+    if include:
+        tmp.append(now)
+        for x in tree[now]:
+            if x == parent:
+                continue
+            tmp += get_nodes(x, now, False)
+    else:
+        for x in tree[now]:
+            if x == parent:
+                continue
+            if dp[x][0] < dp[x][1]:
+                tmp += get_nodes(x, now, True)
             else:
-                max_weight[y][3] = max_weight[x][3]
-        tree[y].remove(x)
-        if len(tree[y]) == 1:
-            leaves.append(y)
-    x = ans[0]
+                tmp += get_nodes(x, now, False)
+    return tmp
 
 
 if __name__ == "__main__":
     N = int(input())
     weights = tuple(MIIS())
-    tree = [set() for _ in range(N + 1)]
+    tree = [[] for _ in range(N + 1)]
     for _ in range(N - 1):
         x, y = MIIS()
-        tree[x].add(y)
-        tree[y].add(x)
-    ans = solve(N, weights, tree)
-    print(ans[0])
-    print(*ans[1:])
+        tree[x].append(y)
+        tree[y].append(x)
+    dp = [[0] * 2 for _ in range(N + 1)]
+    search(1, 0)
+    print(max(dp[1]))
+    print(*sorted(get_nodes(1, 0, True if dp[0] < dp[1] else False)))
