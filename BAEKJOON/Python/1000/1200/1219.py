@@ -10,30 +10,37 @@ MIIS = lambda: map(int, input().split())
 
 
 def bellman_ford(
-    N: int, st: int, end: int, transfers: list[tuple[int]], cities: list[int]
+    N: int, st: int, end: int, transfers: list[list[int]], cities: list[int]
 ):
-    INF = 100_000_000
+    INF = -100_000_000
+    Gee = 100_000_000
     dist = [INF] * N
-    dist[st] = -cities[st]
+    dist[st] = cities[st]
     for _ in range(N - 1):
         for cur_node, next_node, cost in transfers:
-            if dist[cur_node] != INF and dist[next_node] > (
+            if dist[cur_node] == INF:
+                continue
+            elif dist[cur_node] == Gee:
+                dist[next_node] = Gee
+            elif dist[next_node] > (
                 next_cost := dist[cur_node] + cost - cities[next_node]
             ):
                 dist[next_node] = next_cost
-    if dist[end] == INF:
-        return "gg"
     for cur_node, next_node, cost in transfers:
         if (
             dist[cur_node] != INF
             and dist[next_node] > dist[cur_node] + cost - cities[next_node]
         ):
-            return "Gee"
-    return -dist[end]
+            dist[next_node] = Gee
+    if dist[end] == INF:
+        return "gg"
+    elif dist[end] == Gee:
+        return "Gee"
+    return dist[end]
 
 
 if __name__ == "__main__":
     N, st, end, M = MIIS()
-    transfers = [tuple(MIIS()) for _ in range(M)]
+    transfers = [list(MIIS()) for _ in range(M)]
     cities = list(MIIS())
     print(bellman_ford(N, st, end, transfers, cities))
