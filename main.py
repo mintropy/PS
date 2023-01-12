@@ -21,7 +21,9 @@ def main() -> None:
         problem_num = int(input("problem number\n").strip())
         # 문제 제목 가져오기
         url = boj_url + f"{problem_num}"
-        response = requests.get(url)
+        headers = {"User_Agent": "Chrome/66.0.3359.181"}
+        response = requests.get(url, headers=headers)
+
         soup = BeautifulSoup(response.text, "html.parser")
         res = soup.select_one("#problem_title").get_text()
         boj_python_template = f'"""\nTitle : {res}\nLink : {url}\n"""\n'
