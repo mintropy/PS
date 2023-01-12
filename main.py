@@ -1,5 +1,6 @@
 """
 파일 및 폴더를 생성해주는 Python script
+- 백준 문제 번호에 대하여 문제 제목과 함께 생성, Python, JS 가능
 """
 
 import os
@@ -8,7 +9,6 @@ import requests
 from bs4 import BeautifulSoup
 
 boj_url = "https://www.acmicpc.net/problem/"
-# boj_python_template = '"""\nTitle : \nLink : \n"""'
 
 
 def main() -> None:
@@ -16,21 +16,41 @@ def main() -> None:
     platform_name = {
         "BOJ": "BAEKJOON",
     }
+
+    # Get Absolute Pate
     current_dir = os.path.dirname(os.path.realpath(__file__))
     if platform == "BOJ":
+        # BOJ Problem Number
         problem_num = int(input("problem number\n").strip())
-        # 문제 제목 가져오기
+        # BOJ Problem Name
         url = boj_url + f"{problem_num}"
         headers = {"User_Agent": "Chrome/66.0.3359.181"}
         response = requests.get(url, headers=headers)
-
         soup = BeautifulSoup(response.text, "html.parser")
         res = soup.select_one("#problem_title").get_text()
-        boj_python_template = f'"""\nTitle : {res}\nLink : {url}\n"""\n'
-        python_template = "from sys import stdin\n\ninput = stdin.readline\n\n\n"
 
-        problem_dir = f"{problem_num // 1000 * 1000}/{problem_num // 100 * 100}"
+        # Languages Templates
+        python_template = (
+            '"""\n'
+            f"Title : {res}\n"
+            f"Link : {url}\n"
+            '"""\n\n'
+            "from sys import stdin\n\n"
+            "input = stdin.readline\n\n\n"
+        )
+        javascript_template = (
+            "/*\n"
+            f"Title : {res}\n"
+            f"Link : {url}\n"
+            "*/\n\n"
+            'const fs = require("fs")\n'
+            'const filepath = process.platform === "linux" ? "/dev/stdin" : __dirname+"/input.txt"\n'
+            "const input = fs.readFileSync(filepath).toString().trim()\n\n"
+        )
+
         languages = input("languages (py go js)\n").strip().split()
+        # Make File
+        problem_dir = f"{problem_num // 1000 * 1000}/{problem_num // 100 * 100}"
         languages_name = {
             "py": "Python",
             "go": "Golang",
@@ -42,8 +62,14 @@ def main() -> None:
                 os.makedirs(target_dir)
             # 파일 생성
             # 파일에 탬플릿 적용
+            if language == "py":
+                template = python_template
+            elif language == "js":
+                template = javascript_template
+            else:
+                continue
             with open(os.path.join(target_dir, f"{problem_num}.{language}"), "w") as fp:
-                fp.write(boj_python_template + "\n" + python_template)
+                fp.write(template)
 
 
 if __name__ == "__main__":
