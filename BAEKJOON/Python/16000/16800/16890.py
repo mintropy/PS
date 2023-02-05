@@ -3,40 +3,35 @@ Title : 창업
 Link : https://www.acmicpc.net/problem/16890
 """
 
+from collections import deque
 import sys
+
 input = sys.stdin.readline
 
+if __name__ == "__main__":
+    ko_alp = sorted(list(input().strip()))
+    cu_alp = sorted(list(input().strip()), reverse=True)
+    L = len(ko_alp)
 
-ko_alp = sorted(list(input().strip()), reverse=True)
-cu_alp = sorted(list(input().strip()))
-l = len(ko_alp)
+    ko, cu = deque(ko_alp[: L - L // 2]), deque(cu_alp[: L // 2])
+    ans = [""] * L
+    l_idx, r_idx = 0, L - 1
 
-if l % 2:
-    ko_alp = ko_alp[l//2:]
-    cu_alp = cu_alp[l//2+1:]
-else:
-    ko_alp = ko_alp[l//2:]
-    cu_alp = cu_alp[l//2:]
-
-ans_front = ''
-ans_back = ''
-ko_idx = cu_idx = 0
-
-for i in range(l):
-    if i % 2:
-        try:
-            cu_alp[-1] >= ko_alp[-1]
-            ans_front += cu_alp.pop()
-        except:
-            ans_back += cu_alp[0]
-            cu_idx += 1
+    for t in range(L - 1):
+        if ko[0] >= cu[0]:
+            if t % 2:
+                ans[r_idx] = cu.pop()
+            else:
+                ans[r_idx] = ko.pop()
+            r_idx -= 1
+        else:
+            if t % 2:
+                ans[l_idx] = cu.popleft()
+            else:
+                ans[l_idx] = ko.popleft()
+            l_idx += 1
+    if ko:
+        ans[l_idx] = ko[0]
     else:
-        try:
-            ko_alp[-1] <= cu_alp[-1]
-            ans_front += ko_alp.pop()
-        except:
-            ans_back += ko_alp[0]
-            ko_idx += 1
-
-ans_back = ans_back[::-1]
-print(ans_front + ans_back)
+        ans[l_idx] = cu[0]
+    print("".join(ans))
