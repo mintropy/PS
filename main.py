@@ -50,6 +50,8 @@ def main() -> None:
             "const input = fs.readFileSync(filepath).toString().trim()\n\n"
         )
         kotlin_template = (
+            f"// Title : {res}\n"
+            f"// Link : {url}\n\n"
             "import java.io.BufferedReader\n"
             "import java.io.InputStreamReader\n\n"
             "func main() {\n"
@@ -76,8 +78,10 @@ def main() -> None:
                 template = python_template
             elif language == "js":
                 template = javascript_template
+            elif language == "kt":
+                template = kotlin_template
             else:
-                continue
+                template = ""
             with open(os.path.join(target_dir, f"{problem_num}.{language}"), "w") as fp:
                 fp.write(template)
 
