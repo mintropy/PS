@@ -6,3 +6,8 @@ node_modules
 *.json
 
 .DS_Store
+
+.idea
+venv
+
+*.jar

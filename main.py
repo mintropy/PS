@@ -37,6 +37,8 @@ def main() -> None:
             '"""\n\n'
             "from sys import stdin\n\n"
             "input = stdin.readline\n\n\n"
+            "if __name__ == '__main__':\n"
+            "    pass\n"
         )
         javascript_template = (
             "/*\n"
@@ -47,14 +49,22 @@ def main() -> None:
             'const filepath = process.platform === "linux" ? "/dev/stdin" : __dirname+"/input.txt"\n'
             "const input = fs.readFileSync(filepath).toString().trim()\n\n"
         )
+        kotlin_template = (
+            "import java.io.BufferedReader\n"
+            "import java.io.InputStreamReader\n\n"
+            "func main() {\n"
+            "        with(BufferedReader(InputStreamReader(System.`in`))) {\n\n"
+            "        }"
+        )
 
-        languages = input("languages (py go js)\n").strip().split()
+        languages = input("languages (py go js kt)\n").strip().split()
         # Make File
         problem_dir = f"{problem_num // 1000 * 1000}/{problem_num // 100 * 100}"
         languages_name = {
             "py": "Python",
             "go": "Golang",
             "js": "JavaScript",
+            "kt": "Kotlin",
         }
         for language in languages:
             target_dir = f"{current_dir}/{platform_name[platform]}/{languages_name[language]}/{problem_dir}"
