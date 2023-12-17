@@ -54,7 +54,7 @@ def main() -> None:
             f"// Link : {url}\n\n"
             "import java.io.BufferedReader\n"
             "import java.io.InputStreamReader\n\n"
-            "func main() {\n"
+            "fun main() =\n"
             "        with(BufferedReader(InputStreamReader(System.`in`))) {\n\n"
             "        }"
         )
