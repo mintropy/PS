@@ -24,7 +24,9 @@ def main() -> None:
         problem_num = int(input("problem number\n").strip())
         # BOJ Problem Name
         url = boj_url + f"{problem_num}"
-        headers = {"User_Agent": "Chrome/66.0.3359.181"}
+        headers = {
+            "User_Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:123.0) Gecko/20100101 Firefox/123.0"
+        }
         response = requests.get(url, headers=headers)
         soup = BeautifulSoup(response.text, "html.parser")
         res = soup.select_one("#problem_title").get_text()
