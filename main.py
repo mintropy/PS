@@ -51,6 +51,21 @@ def main() -> None:
             'const filepath = process.platform === "linux" ? "/dev/stdin" : __dirname+"/input.txt"\n'
             "const input = fs.readFileSync(filepath).toString().trim()\n\n"
         )
+        go_template = (
+            f"// Title : {res}\n"
+            f"// Link : {url}\n\n"
+            "package main\n\n"
+            "import (\n"
+            '\t"fmt"\n'
+            '\t"os"\n'
+            '\t"bufio"\n'
+            ")\n\n"
+            "func main() {\n"
+            "\tr := bufio.NewReader(os.Stdin)\n"
+            "\t_ = r\n"
+            "\tfmt.Println()\n"
+            "}\n"
+        )
         kotlin_template = (
             f"// Title : {res}\n"
             f"// Link : {url}\n\n"
@@ -80,12 +95,19 @@ def main() -> None:
                 template = python_template
             elif language == "js":
                 template = javascript_template
+            elif language == "go":
+                template = go_template
             elif language == "kt":
                 template = kotlin_template
             else:
                 template = ""
+
             with open(os.path.join(target_dir, f"{problem_num}.{language}"), "w") as fp:
                 fp.write(template)
+            if language == "js":
+                # input.txt 파일을 같은 폴더에 생성
+                with open(os.path.join(target_dir, "input.txt"), "w") as fp:
+                    fp.write("")
 
 
 if __name__ == "__main__":
